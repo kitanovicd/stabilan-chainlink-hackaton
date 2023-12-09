@@ -57,7 +57,10 @@ export const MainContent = () => {
               </Typography>
             </div>
             <div className="flex items-start">
-              <Typography type="h1" className="font-bold">
+              <Typography type="h1" className="font-bold md:block hidden">
+                Welcome to Stabilan
+              </Typography>
+              <Typography type="h2" className="font-bold block md:hidden">
                 Welcome to Stabilan
               </Typography>
               <ImageWrapper
@@ -73,7 +76,7 @@ export const MainContent = () => {
               like a magic shield for your coins. 🛡️
             </Typography>
           </FlexCol>
-          <LaunchAppButton label="Join Now" redirectUrl="/insurance" />
+          <LaunchAppButton label="Launch app" redirectUrl="/insurance" />
         </FlexCol>
       </div>
       <div className="relative w-3/4 md:w-2/5 mx-auto">

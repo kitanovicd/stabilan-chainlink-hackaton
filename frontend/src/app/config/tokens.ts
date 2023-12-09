@@ -40,7 +40,7 @@ export const tokens = [
     name: "WBTC",
     icon: Icons.tokenWBTC,
     sepolia: { address: contractAddressesByChain.sepolia.wBTC },
-    base: { address: contractAddressesByChain.base.wBTC },
+    base: { address: contractAddressesByChain.base.WBTC },
     polygonZkevmTestnet: {
       address: contractAddressesByChain.polygonZkevmTestnet.wBTC,
     },

@@ -13,6 +13,7 @@ import * as chains from "wagmi/chains";
 // import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { publicProvider } from "wagmi/providers/public";
 import { alchemyProvider } from "wagmi/providers/alchemy";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 import scaffoldConfig from "../../../../../scaffold.config";
 import { getTargetNetwork } from "../../utils/scaffold-eth";
@@ -37,10 +38,11 @@ const enabledChains =
 export const appChains = configureChains(
   enabledChains,
   [
-    alchemyProvider({
-      apiKey: scaffoldConfig.alchemyApiKey,
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: process.env.NEXT_PUBLIC_RPC_URL || "",
+      }),
     }),
-    publicProvider(),
   ],
   {
     stallTimeout: 3_000,

@@ -36,7 +36,7 @@ export const MockPriceFeedAggregatorComponent = () => {
         ?.USDTPriceFeed,
     wBTCPriceFeed:
       contractAddressesByChain[network.modifiedName as AvailableChains]
-        ?.wBTCPriceFeed,
+        ?.WETHPriceFeed,
     INSRDPriceFeed:
       contractAddressesByChain[network.modifiedName as AvailableChains]
         ?.INSRDPriceFeed,

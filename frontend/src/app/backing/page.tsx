@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { CheckmarkIcon } from "react-hot-toast";
 import { etherUnits, formatUnits, parseUnits } from "viem";
 
 import {
@@ -11,10 +10,14 @@ import {
   FlexCol,
   FlexRow,
   Icon,
+  Icons,
   InputFieldS,
   Typography,
 } from "../../lib";
 import { InputSliderFieldS } from "../../lib/components/form/input-stabilan/InputSliderField/InputSliderField";
+import { DisplayAddress } from "../common/DisplayAddress";
+import { TermsAndConditionCard } from "../common/TermsAndConditionCard";
+import TokenCard from "../common/TokenCard";
 
 import {
   AvailableChains,
@@ -151,45 +154,19 @@ export default function Page() {
         </Typography>
       </FlexCol>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
         {tokens.map((token, index) => (
-          <div
+          <TokenCard
             key={index}
-            className={`cursor-pointer flex flex-col flex-grow items-center rounded-2xl p-4 border border-dashed border-[rgba(145,158,171,0.2)] relative ${
-              selectedToken?.name === token.name ? "border-primary" : ""
-            }`}
-            onClick={() => selectToken(token)}
-          >
-            {selectedToken?.name === token.name && (
-              <CheckmarkIcon
-                style={{
-                  position: "absolute",
-                  left: "145px",
-                  top: "50px",
-                }}
-                className="h-6 w-6 text-primary z-10"
-              />
-            )}
-            <div className="min-h-[70px]">
-              <Icon
-                className="rounded-full"
-                src={token.icon}
-                width={55}
-                height={55}
-              />
-            </div>
-            <div className="flex flex-col gap-3 text-center">
-              <Typography type="body-bold">{token.name}</Typography>
-              <Typography type="meta">
-                {token.name === "WBTC" ? <>Bitcoin</> : <>Stablecoin</>}
-              </Typography>
-            </div>
-          </div>
+            token={token}
+            isSelected={selectedToken?.name === token.name}
+            onSelect={selectToken}
+          />
         ))}
       </div>
 
       <div className="grid grid-cols-12 gap-4">
-        <div className="md:col-span-8 col-span-12 gap-12 flex flex-col">
+        <div className="md:col-span-8 col-span-12 gap-12 flex flex-col mb-0 md:mb-10">
           <Card size="big">
             <Typography type="h5">Quote details</Typography>
             <br />
@@ -198,7 +175,6 @@ export default function Page() {
                 This product covers any token or combination of tokens you have
                 in the Protocol. In case of a claim, you`ll receive the
                 equivalent of your lost funds in ETH up to the covered amount.
-                Alternatively you can select DAI.
               </Typography>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="col-span-1">
@@ -224,7 +200,7 @@ export default function Page() {
                     label={<Typography type="body-bold">Amount</Typography>}
                     rightLabel={
                       <Typography type="h6" className="text-info">
-                        ETH
+                        WETH
                       </Typography>
                     }
                     value={amount}
@@ -235,27 +211,8 @@ export default function Page() {
               </div>
             </div>
           </Card>
-          <Card size="big">
-            <Typography type="h5">Terms and conditions</Typography>
-            <br />
-            <Typography type="body-regular">
-              Protocol Cover protects against: Smart contract code being used in
-              an unintended way (e.g., exploit, hack) Sudden and severe economic
-              events (e.g., oracle manipulation, governance attacks) Exclusions
-              that apply but are not limited to: Losses due to rug pulls Losses
-              from the de-peg of any asset that the Designated Protocol
-              generates Losses due to a previously disclosed vulnerability Cover
-              applies to all EVM-compatible networks Deductible 5% of the Cover
-              Amount Claims filing: You must provide proof of loss when
-              submitting your claim You need to wait 14 days after the loss
-              event, so claims assessors have the resources to make a decision
-              If your cover was active when the loss event occurred, you can
-              file a claim up to 35 days after the cover period expires This
-              cover is not a contract of insurance. Cover is provided on a
-              discretionary basis with Nexus Mutual members having the final say
-              on which claims are paid. Read the complete cover wording here.
-            </Typography>
-          </Card>
+
+          <TermsAndConditionCard />
         </div>
         <div className="md:col-span-4 col-span-12">
           <Card size="big">
@@ -288,15 +245,31 @@ export default function Page() {
                     </Typography>
                   </FlexCol>
                 </FlexRow>
+
+                <DisplayAddress
+                  address={`${
+                    network.blockExplorers?.default.url
+                  }/token/${getAddressByTokenAndNetwork(
+                    selectedToken?.name,
+                    network.modifiedName
+                  )}`}
+                />
+
                 <Divider />
                 <FlexRow className="justify-between">
-                  <Typography>Pay in:</Typography>
+                  <FlexRow className="gap-2 items-center">
+                    <Typography>Pay in</Typography>
+                    <Icon src={Icons.SolarInfoCircleBold} />
+                  </FlexRow>
                   <Typography type="body-bold" className="text-info">
-                    ETH
+                    WETH
                   </Typography>
                 </FlexRow>
                 <FlexRow className="justify-between">
-                  <Typography>Until:</Typography>
+                  <FlexRow className="gap-2 items-center">
+                    <Typography>Until</Typography>
+                    <Icon src={Icons.SolarInfoCircleBold} />
+                  </FlexRow>
                   <Typography type="body-bold" className="text-info">
                     {getDateAsLastDayOfTheMonth({
                       numberOfMonths: months,
@@ -304,13 +277,19 @@ export default function Page() {
                   </Typography>
                 </FlexRow>
                 <FlexRow className="justify-between">
-                  <Typography>You`ll invest:</Typography>
+                  <FlexRow className="gap-2 items-center">
+                    <Typography>Cost</Typography>
+                    <Icon src={Icons.SolarInfoCircleBold} />
+                  </FlexRow>
                   <Typography type="body-bold" className="text-info">
-                    {amount} ETH
+                    {amount} WETH
                   </Typography>
                 </FlexRow>
                 <FlexRow className="justify-between">
-                  <Typography>APY:</Typography>
+                  <FlexRow className="gap-2 items-center">
+                    <Typography>APY</Typography>
+                    <Icon src={Icons.SolarInfoCircleBold} />
+                  </FlexRow>
                   <Typography type="body-bold" className="text-info">
                     {getAssetAPY
                       ? `${(

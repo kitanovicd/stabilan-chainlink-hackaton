@@ -95,7 +95,7 @@ export const SecondTable = () => {
   return (
     <div className="relative overflow-x-auto">
       <FlexCol className="gap-8">
-        <Typography type="h4">Baking</Typography>
+        <Typography type="h4">Backing</Typography>
 
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400 rounded-xl">

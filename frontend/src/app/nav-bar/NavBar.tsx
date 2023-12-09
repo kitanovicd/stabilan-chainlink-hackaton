@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { Icon, Icons, SidebarItem, Typography } from "../../lib";
+import { Divider, Icon, Icons, SidebarItem, Typography } from "../../lib";
 
 import { RainbowKitCustom } from "@/components/button/RainbowKitCustom/RainbowKitCustom.client";
 
@@ -15,6 +15,7 @@ interface NavBarProps {
 const NavBar = ({ items }: NavBarProps) => {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,13 +25,23 @@ const NavBar = ({ items }: NavBarProps) => {
         setIsScrolled(false);
       }
     };
+    const handleResize = () => {
+      setIsMenuOpen(false); // Close the menu when window is resized
+    };
 
+    window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const toggleMenu = () => {
+    console.log("first");
+    setIsMenuOpen(!isMenuOpen); // Toggle the menu state
+  };
 
   return (
     <nav
@@ -46,63 +57,62 @@ const NavBar = ({ items }: NavBarProps) => {
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <Icon src={Icons.logo} alt="Flowbite Logo" width={48} height={48} />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+          <span className="self-center text-2xl font-semibold whitespace-nowrap md:block hidden dark:text-white">
             <Typography type="h6">Stabilan</Typography>
           </span>
         </Link>
-        <div className="flex md:order-2">
-          <button
-            type="button"
-            data-collapse-toggle="navbar-search"
-            aria-controls="navbar-search"
-            aria-expanded="false"
-            className="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1"
+        <button
+          data-collapse-toggle="navbar-search"
+          type="button"
+          className="inline-flex items-center p-2 w-10 h-10 justify-start text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          aria-controls="navbar-search"
+          aria-expanded="false"
+          onClick={toggleMenu}
+        >
+          <span className="sr-only">Open main menu</span>
+          <svg
+            className="w-5 h-5"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 17 14"
           >
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 20"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-              />
-            </svg>
-            <span className="sr-only">Search</span>
-          </button>
-          <div className="relative hidden md:block">
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M1 1h15M1 7h15M1 13h15"
+            />
+          </svg>
+        </button>
+        <div className="flex md:order-2">
+          <div className="items-center">
             <RainbowKitCustom />
           </div>
-          <button
-            data-collapse-toggle="navbar-search"
-            type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-search"
-            aria-expanded="false"
-          >
-            <span className="sr-only">Open main menu</span>
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 17 14"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 1h15M1 7h15M1 13h15"
-              />
-            </svg>
-          </button>
         </div>
+        {isMenuOpen && (
+          <div
+            className={`flex flex-col p-4 mt-4 font-medium bg-white border border-primary rounded-lg md:flex-row md:mt-0 md:border-0 md:space-x-8 rtl:space-x-reverse items-center justify-between w-full md:flex md:w-auto md:order-1`}
+            id="navbar-search"
+          >
+            {/* Menu items */}
+            {items.map((item, index) => (
+              <Link
+                key={index}
+                href={item.path}
+                onClick={() => {
+                  setIsMenuOpen(false);
+                }}
+                className={`block py-4 px-3 w-full text-center
+                ${item.path === pathname ? "text-success" : ""}`}
+              >
+                <Typography type="body-bold">{item.title}</Typography>
+                <Divider className="w-full" />
+              </Link>
+            ))}
+          </div>
+        )}
         <div
           className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
           id="navbar-search"

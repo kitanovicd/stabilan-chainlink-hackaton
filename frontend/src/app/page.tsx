@@ -49,7 +49,7 @@ export default function Home() {
         <div className="w-full text-center">
           <Typography type="h2">Stabilan - features</Typography>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mx-20 mt-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:mx-20 mt-20">
           {features.map((feature, index) => (
             <div key={index} className="bg-white shadow-sm rounded-3xl p-4">
               <div className="flex flex-col gap-4 p-4 items-center text-center">

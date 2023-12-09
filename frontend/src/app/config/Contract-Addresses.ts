@@ -55,7 +55,24 @@ export const contractAddressesByChain = {
     StabilanCore: "0xfdf2bF3688F0AF7B0Baef04afde43FBC72530b7f" as Address0x,
   },
   base: {
-    ...contractAddresses,
+    TokenFactory: "0x48AC85A71Cb5E1384A365fFf3D5f717B4eD411d0" as Address0x,
+    PriceFeedAggregator:
+      "0xA43D0B09A636DffB998d824b62117b83523289e6" as Address0x,
+    StabilanCore: "0xd91403135D10F770A60147Ab32BcE845F08caeBf" as Address0x,
+    DataProvider: "0x343b8557F7dd059b668cbC5726Aa9257D5494CbC" as Address0x,
+    INSRD: "0xa61c1F4f1d550D1A25107F4241714bc0823Bf05c" as Address0x,
+    INSRDPriceFeed: "0x03CdF0973CE7A62d097651F16F4a27764f1491fc" as Address0x,
+    InsurancePlugin: "0xf66423533d8bA9ce2ACDf2F5F07F4fb9106e9AFb" as Address0x,
+    USDC: "0xD7e2b15E06C571155093257D08636b96bB8B1222" as Address0x,
+    USDCPriceFeed: "0x7117e2E8fb018D96C74Fa6D50dE717F6814A6A5E" as Address0x,
+    USDT: "0xc055C513c798951053B1a0c218601ee08AB01034" as Address0x,
+    USDTPriceFeed: "0xe16C522d5282A911ae2491c725700A5f42FE7EEF" as Address0x,
+    WETH: "0x7E7D664e738412f5005D5e217D1318a60Ac442b6" as Address0x,
+    WETHPriceFeed: "0xB7b006e8bDe998206C72a9aB456495b1998D42E0" as Address0x,
+    WBTC: "0x6A4aCb742600FE0Be6c5aC1Bb640548525396042" as Address0x,
+    WBTCPriceFeed: "0x4dA8F880623973392D337c88460992b33FDA22C8" as Address0x,
+    GHO: "0xe862D0574355bD492cf2A4c6C9E6c66dC28d4D8f" as Address0x, // unchanged
+    GHOPriceFeed: "0x33D572F7Dc6FA6dEe50C69E94821501481803560" as Address0x, // unchanged
   },
   polygonZkevmTestnet: {
     PriceFeedAggregator:
