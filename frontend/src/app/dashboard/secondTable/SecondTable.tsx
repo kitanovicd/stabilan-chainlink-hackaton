@@ -26,8 +26,8 @@ import {
   Typography,
 } from "lib";
 import { useWingsContractRead } from "lib/client/hooks/useWingsContractRead";
-import { getTargetNetwork } from "lib/scaffold-lib/utils/scaffold-eth";
 import { displayTokens } from "lib/utils/tokens/display-tokens";
+import { useTargetNetwork } from "lib/client/hooks/useTargetNetwork";
 
 interface FormData {
   amount: string;
@@ -35,7 +35,7 @@ interface FormData {
 
 export const SecondTable = () => {
   const { address } = useAccount();
-  const network = getTargetNetwork();
+  const { targetNetwork: network } = useTargetNetwork();
   // DataProvider.getUserTokens(coreContractAddress, userAddress)
   const { data: userTokens } = useWingsContractRead({
     contractName: "DataProvider",

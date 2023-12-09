@@ -7,11 +7,10 @@ import { Minterc20 } from "./minterc20/minterc20";
 
 import { Button, FlexCol, Typography } from "lib";
 import { useWingsContractWrite } from "lib/client/hooks/useWingsContractWrite";
-import { getTargetNetwork } from "lib/scaffold-lib/utils/scaffold-eth";
+import { useTargetNetwork } from "lib/client/hooks/useTargetNetwork";
 
 export default function Page() {
-  const network = getTargetNetwork();
-  console.log({ nw: network.name });
+  const { targetNetwork: network } = useTargetNetwork();
   const { address } = useAccount();
 
   const { writeAsync: updateEpochAsync, isLoading: isEpoching } =

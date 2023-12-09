@@ -27,10 +27,7 @@ import { getAddressByTokenAndNetwork, tokens } from "app/config/tokens";
 import { useGetPriceByAddress } from "lib/client/hooks/useGetPriceByAddress";
 import { useWingsContractRead } from "lib/client/hooks/useWingsContractRead";
 import { useWingsContractWrite } from "lib/client/hooks/useWingsContractWrite";
-import {
-  getTargetNetwork,
-  notification,
-} from "lib/scaffold-lib/utils/scaffold-eth";
+import { notification } from "lib/scaffold-lib/utils/scaffold-eth";
 import { getDateAsLastDayOfTheMonth } from "lib/utils/date/find-last-day-of-the-month";
 import { displayTokens } from "lib/utils/tokens/display-tokens";
 import { useTargetNetwork } from "lib/client/hooks/useTargetNetwork";

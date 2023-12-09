@@ -7,8 +7,8 @@ import { useAccount } from "wagmi";
 import { Address0x } from "app/config/Contract-Addresses";
 import { getAddressByTokenAndNetwork, tokens } from "app/config/tokens";
 import { Button, Card, FlexCol, Icon, InputField, Typography } from "lib";
-import { getTargetNetwork } from "lib/scaffold-lib/utils/scaffold-eth";
 import { useWingsContractWrite } from "lib/client/hooks/useWingsContractWrite";
+import { useTargetNetwork } from "lib/client/hooks/useTargetNetwork";
 
 interface IToken {
   name: string;
@@ -16,7 +16,7 @@ interface IToken {
 }
 
 export const Minterc20 = () => {
-  const network = getTargetNetwork();
+  const { targetNetwork: network } = useTargetNetwork();
   const { address } = useAccount();
 
   const [amount, setAmount] = useState(0);

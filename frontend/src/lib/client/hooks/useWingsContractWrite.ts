@@ -3,10 +3,7 @@ import { useState } from "react";
 import { Abi, Address } from "viem";
 import { useContractWrite, useNetwork } from "wagmi";
 
-import {
-  getTargetNetwork,
-  notification,
-} from "../../scaffold-lib/utils/scaffold-eth";
+import { notification } from "../../scaffold-lib/utils/scaffold-eth";
 import {
   ContractAbi,
   ContractName,
@@ -15,6 +12,7 @@ import {
 import { getParsedError } from "../../scaffold-lib/utils/scaffold-eth/utilsContracts";
 
 import { useDeployedContractInfo } from "./useDeployedContractInfo";
+import { useTargetNetwork } from "./useTargetNetwork";
 
 export const useWingsContractWrite = <
   TContractName extends ContractName,
@@ -32,13 +30,15 @@ export const useWingsContractWrite = <
   blockConfirmations,
   ...writeConfig
 }: UseScaffoldWriteConfig<TContractName, TFunctionName>) => {
+  const { targetNetwork } = useTargetNetwork();
+
   const { data: deployedContractData } = useDeployedContractInfo(
     contractName,
     overrideContractAddress?.address
   );
   const { chain } = useNetwork();
   const [isMining, setIsMining] = useState(false);
-  const configuredNetwork = getTargetNetwork();
+  const configuredNetwork = targetNetwork;
 
   const wagmiContractWrite = useContractWrite({
     address: deployedContractData?.address,

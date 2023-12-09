@@ -10,7 +10,7 @@ import { Connector, useAccount, useConnect } from "wagmi";
 import scaffoldConfig from "../../../../scaffold.config";
 
 import { burnerWalletId } from "lib/scaffold-lib/services/web3/wagmi-burner/BurnerConnector";
-import { getTargetNetwork } from "lib/scaffold-lib/utils/scaffold-eth";
+import { useTargetNetwork } from "./useTargetNetwork";
 
 const SCAFFOLD_WALLET_STROAGE_KEY = "scaffoldEth2.wallet";
 const WAGMI_WALLET_STORAGE_KEY = "wagmi.wallet";
@@ -69,6 +69,7 @@ const getInitialConnector = (
  */
 export const useAutoConnect = (): void => {
   console.log("useAutoConnect");
+  const { targetNetwork: network } = useTargetNetwork();
   const wagmiWalletValue = useReadLocalStorage<string>(
     WAGMI_WALLET_STORAGE_KEY
   );
@@ -93,7 +94,8 @@ export const useAutoConnect = (): void => {
 
   useEffectOnce(() => {
     const initialConnector = getInitialConnector(
-      getTargetNetwork(),
+      // ili get network funckija?
+      network,
       walletId,
       connectState.connectors
     );

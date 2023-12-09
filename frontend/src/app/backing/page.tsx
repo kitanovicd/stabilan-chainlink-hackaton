@@ -26,7 +26,6 @@ import {
 import { getAddressByTokenAndNetwork, tokens } from "app/config/tokens";
 import { useWingsContractRead } from "lib/client/hooks/useWingsContractRead";
 import { useWingsContractWrite } from "lib/client/hooks/useWingsContractWrite";
-import { getTargetNetwork } from "lib/scaffold-lib/utils/scaffold-eth";
 import { getDateAsLastDayOfTheMonth } from "lib/utils/date/find-last-day-of-the-month";
 import { useTargetNetwork } from "lib/client/hooks/useTargetNetwork";
 

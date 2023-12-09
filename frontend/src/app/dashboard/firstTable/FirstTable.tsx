@@ -17,13 +17,13 @@ import {
 import { EmptyContent, FlexCol, ImageWrapper, Typography } from "lib";
 import { useAccountBalance } from "lib/client/hooks/useAccountBalance";
 import { useWingsContractRead } from "lib/client/hooks/useWingsContractRead";
-import { getTargetNetwork } from "lib/scaffold-lib/utils/scaffold-eth";
 import { displayTokens } from "lib/utils/tokens/display-tokens";
+import { useTargetNetwork } from "lib/client/hooks/useTargetNetwork";
 
 export const FirstTable = () => {
   const { address } = useAccount();
   const { balance } = useAccountBalance();
-  const network = getTargetNetwork();
+  const { targetNetwork: network } = useTargetNetwork();
   // DataProvider.getUserTokens(coreContractAddress, userAddress)
   const { data: userTokens } = useWingsContractRead({
     contractName: "DataProvider",

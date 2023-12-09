@@ -5,13 +5,13 @@ import { useContractRead } from "wagmi";
 
 import { useDeployedContractInfo } from "./useDeployedContractInfo";
 
-import { getTargetNetwork } from "lib/scaffold-lib/utils/scaffold-eth";
 import {
   AbiFunctionReturnType,
   ContractAbi,
   ContractName,
   UseScaffoldReadConfig,
 } from "lib/scaffold-lib/utils/scaffold-eth/contract";
+import { useTargetNetwork } from "./useTargetNetwork";
 
 /**
  * @dev wrapper for wagmi's useContractRead hook which loads in deployed contract contract abi, address automatically
@@ -33,13 +33,15 @@ export const useWingsContractRead = <
   args,
   ...readConfig
 }: UseScaffoldReadConfig<TContractName, TFunctionName>) => {
+  const { targetNetwork } = useTargetNetwork();
+
   const { data: deployedContract } = useDeployedContractInfo(
     contractName,
     overrideContractAddress?.address
   );
 
   return useContractRead({
-    chainId: getTargetNetwork().id,
+    chainId: targetNetwork.id,
     functionName,
     address: deployedContract?.address,
     abi: deployedContract?.abi,
