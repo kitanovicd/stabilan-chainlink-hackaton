@@ -4,7 +4,10 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 
 import { Button } from "../..";
+import { useAutoConnect } from "../../../client/hooks/useAutoConnect";
 export const RainbowKitCustom = () => {
+  useAutoConnect();
+
   return (
     <ConnectButton.Custom>
       {({
