@@ -14,7 +14,7 @@ import { useWingsContractRead } from "./useWingsContractRead";
  * @returns An object containing price details or undefined if data is not available.
  */
 export const useGetPriceByAddress = (address: Address) => {
-  const { data, isLoading, refetch } = useWingsContractRead({
+  const { data, isFetching, refetch } = useWingsContractRead({
     contractName: "PriceFeedAggregator",
     functionName: "peek",
     args: [address as Address0x],
@@ -27,14 +27,15 @@ export const useGetPriceByAddress = (address: Address) => {
       originalPrice: undefined,
       formattedPrice: undefined,
       decimals: undefined,
-      isLoading,
+      isLoading: isFetching,
       refetch,
     };
   }
 
   // Extract originalPrice and decimals from the data
-  const originalPrice = (data as any)[0];
-  const decimals = (data as any)[1];
+  const originalPrice = data;
+  // const decimals = (data as any)[1];
+  const decimals = 8;
 
   // Calculate price in dollars
   const priceInDollars = formatUnitsToMoney(originalPrice, { decimals });
@@ -47,7 +48,7 @@ export const useGetPriceByAddress = (address: Address) => {
     originalPrice,
     formattedPrice,
     decimals,
-    isLoading,
+    isFetching,
     refetch,
   };
 };

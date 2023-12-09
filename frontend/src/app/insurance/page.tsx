@@ -27,13 +27,13 @@ import { getAddressByTokenAndNetwork, tokens } from "app/config/tokens";
 import { useGetPriceByAddress } from "lib/client/hooks/useGetPriceByAddress";
 import { useWingsContractRead } from "lib/client/hooks/useWingsContractRead";
 import { useWingsContractWrite } from "lib/client/hooks/useWingsContractWrite";
-import { useWingsContractWrite2 } from "lib/client/hooks/useWingsContractWrite2";
 import {
   getTargetNetwork,
   notification,
 } from "lib/scaffold-lib/utils/scaffold-eth";
 import { getDateAsLastDayOfTheMonth } from "lib/utils/date/find-last-day-of-the-month";
 import { displayTokens } from "lib/utils/tokens/display-tokens";
+import { useTargetNetwork } from "lib/client/hooks/useTargetNetwork";
 
 interface IToken {
   name: string;
@@ -41,7 +41,8 @@ interface IToken {
 }
 
 export default function Page() {
-  const network = getTargetNetwork();
+  const { targetNetwork: network } = useTargetNetwork();
+  console.log({ modName: network.modifiedName });
   // StabilanCore.getOptionsPrice(assetAddress, amount, duration, payingTokenAddress)
   const [months, setMonths] = useState(1);
   const [amount, setAmount] = useState("");
@@ -137,10 +138,12 @@ export default function Page() {
   };
 
   const { writeAsync: approveOptionsAsync, isLoading: isApproving } =
-    useWingsContractWrite2({
+    useWingsContractWrite({
       contractName: "MockERC20",
       functionName: "approve",
-      overrideContractAddress: assetsConfig ? (assetsConfig as any)[0] : "0xss",
+      overrideContractAddress: {
+        address: assetsConfig ? (assetsConfig as any)[0] : "0xss",
+      },
       args: [undefined, undefined],
     });
 

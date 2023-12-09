@@ -1,9 +1,9 @@
 "use client";
 
 import "@rainbow-me/rainbowkit/styles.css";
-import { Raleway } from "next/font/google";
 import "./globals.css";
 
+import { Raleway } from "next/font/google";
 import { RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
 import { Toaster } from "react-hot-toast";
 import { WagmiConfig } from "wagmi";

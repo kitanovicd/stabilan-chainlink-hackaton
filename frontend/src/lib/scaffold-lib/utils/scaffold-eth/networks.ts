@@ -17,6 +17,7 @@ export type TChainAttributes = {
   // Used to fetch price by providing mainnet token address
   // for networks having native currency other than ETH
   nativeCurrencyTokenAddress?: string;
+  modifiedName?: string;
 };
 
 export type ChainWithAttributes = chains.Chain & Partial<ChainAttributes>;
@@ -125,10 +126,45 @@ export function getTargetNetworks(): ChainWithAttributes[] {
   }));
 }
 
+export interface ModifiedNetwork extends ChainWithAttributes {
+  modifiedName: string;
+}
+
 /**
- * @returns targetNetwork object consisting targetNetwork from scaffold.config and extra network metadata
+ * Converts a network name to camelCase if it contains hyphens.
+ * @param str The input string.
+ * @returns The modified string.
  */
-export function getTargetNetwork(): chains.Chain & Partial<TChainAttributes> {
+function toCamelCase(str: string): string {
+  return str.replace(/-([a-z])/g, function (g) {
+    return g[1].toUpperCase();
+  });
+}
+
+/**
+ * @param network The target network object.
+ * @returns The modified target network object with camelCase network name.
+ */
+export function modifyNetworkName(
+  network: ChainWithAttributes
+): ModifiedNetwork {
+  const modifiedName = network.network.includes("-")
+    ? toCamelCase(network.network)
+    : network.network;
+
+  return {
+    ...network,
+    modifiedName: modifiedName,
+    ...NETWORKS_EXTRA_DATA[network.id],
+  };
+}
+
+/**
+ * @returns Target network object consisting target network from scaffold.config and extra network metadata.
+ */
+export function getTargetNetwork(): ModifiedNetwork {
   const targetNetworks = getTargetNetworks();
-  return targetNetworks[0];
+  const configuredNetwork = targetNetworks[0];
+
+  return modifyNetworkName(configuredNetwork);
 }

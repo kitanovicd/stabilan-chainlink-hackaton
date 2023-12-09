@@ -4,12 +4,15 @@ import { useNetwork } from "wagmi";
 import scaffoldConfig from "../../../../scaffold.config";
 
 import {
-  ChainWithAttributes,
-  NETWORKS_EXTRA_DATA,
+  ModifiedNetwork,
+  modifyNetworkName,
 } from "lib/scaffold-lib/utils/scaffold-eth";
 import { useGlobalState } from "lib/scaffold-lib/services/store/store";
 
-export function useTargetNetwork(): { targetNetwork: ChainWithAttributes } {
+/**
+ * @returns The target network with the modified network name.
+ */
+export function useTargetNetwork(): { targetNetwork: ModifiedNetwork } {
   const { chain } = useNetwork();
   const targetNetwork = useGlobalState(({ targetNetwork }) => targetNetwork);
   const setTargetNetwork = useGlobalState(
@@ -26,9 +29,6 @@ export function useTargetNetwork(): { targetNetwork: ChainWithAttributes } {
   }, [chain?.id, setTargetNetwork, targetNetwork.id]);
 
   return {
-    targetNetwork: {
-      ...targetNetwork,
-      ...NETWORKS_EXTRA_DATA[targetNetwork.id],
-    },
+    targetNetwork: modifyNetworkName(targetNetwork),
   };
 }

@@ -28,6 +28,7 @@ import { useWingsContractRead } from "lib/client/hooks/useWingsContractRead";
 import { useWingsContractWrite } from "lib/client/hooks/useWingsContractWrite";
 import { getTargetNetwork } from "lib/scaffold-lib/utils/scaffold-eth";
 import { getDateAsLastDayOfTheMonth } from "lib/utils/date/find-last-day-of-the-month";
+import { useTargetNetwork } from "lib/client/hooks/useTargetNetwork";
 
 interface IToken {
   name: string;
@@ -38,7 +39,9 @@ interface IToken {
 }
 
 export default function Page() {
-  const network = getTargetNetwork();
+  const { targetNetwork: network } = useTargetNetwork();
+  console.log({ networMN: network.modifiedName });
+  console.log({ network });
 
   const [isApproved, setIsApproved] = useState(false);
   const [months, setMonths] = useState(1);

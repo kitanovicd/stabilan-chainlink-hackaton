@@ -12,17 +12,17 @@ export const tokens = [
   {
     name: "USDC",
     icon: Icons.tokenUsdc,
-    sepolia: { address: contractAddressesByChain.sepolia.USDC },
+    avalancheFuji: { address: contractAddressesByChain.avalancheFuji.USDC },
     polygonZkevmTestnet: {
       address: contractAddressesByChain.polygonZkevmTestnet.USDC,
     },
-    base: { address: contractAddressesByChain.base.USDC },
+    baseGoerli: { address: contractAddressesByChain.baseGoerli.USDC },
   },
   {
     name: "USDT",
     icon: Icons.tokenUsdt,
-    sepolia: { address: contractAddressesByChain.sepolia.USDT },
-    base: { address: contractAddressesByChain.base.USDT },
+    avalancheFuji: { address: contractAddressesByChain.avalancheFuji.USDT },
+    baseGoerli: { address: contractAddressesByChain.baseGoerli.USDT },
     polygonZkevmTestnet: {
       address: contractAddressesByChain.polygonZkevmTestnet.USDT,
     },
@@ -30,8 +30,8 @@ export const tokens = [
   {
     name: "Gho",
     icon: Icons.tokenGho,
-    sepolia: { address: contractAddressesByChain.sepolia.GHO },
-    base: { address: contractAddressesByChain.base.GHO },
+    avalancheFuji: { address: contractAddressesByChain.avalancheFuji.GHO },
+    baseGoerli: { address: contractAddressesByChain.baseGoerli.GHO },
     polygonZkevmTestnet: {
       address: contractAddressesByChain.polygonZkevmTestnet.GHO,
     },
@@ -39,8 +39,8 @@ export const tokens = [
   {
     name: "WBTC",
     icon: Icons.tokenWBTC,
-    sepolia: { address: contractAddressesByChain.sepolia.wBTC },
-    base: { address: contractAddressesByChain.base.WBTC },
+    avalancheFuji: { address: contractAddressesByChain.avalancheFuji.wBTC },
+    baseGoerli: { address: contractAddressesByChain.baseGoerli.WBTC },
     polygonZkevmTestnet: {
       address: contractAddressesByChain.polygonZkevmTestnet.wBTC,
     },
@@ -48,8 +48,8 @@ export const tokens = [
   {
     name: "INSRD",
     icon: Icons.tokenINSRD,
-    sepolia: { address: contractAddressesByChain.sepolia.INSRD },
-    base: { address: contractAddressesByChain.base.INSRD },
+    avalancheFuji: { address: contractAddressesByChain.avalancheFuji.INSRD },
+    baseGoerli: { address: contractAddressesByChain.baseGoerli.INSRD },
     polygonZkevmTestnet: {
       address: contractAddressesByChain.polygonZkevmTestnet.INSRD,
     },

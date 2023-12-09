@@ -15,8 +15,8 @@ import {
   tokens,
 } from "app/config/tokens";
 import { Button, Card, FlexCol, Icon, InputField, Typography } from "lib";
-import { useWingsContractWrite2 } from "lib/client/hooks/useWingsContractWrite2";
 import { getTargetNetwork } from "lib/scaffold-lib/utils/scaffold-eth";
+import { useWingsContractWrite } from "lib/client/hooks/useWingsContractWrite";
 
 interface IToken {
   name: string;
@@ -74,19 +74,22 @@ export const MockPriceFeedAggregatorComponent = () => {
     setSelectedToken(token);
   };
 
-  const { writeAsync: mintAsync, isLoading: isMinting } =
-    useWingsContractWrite2({
+  const { writeAsync: mintAsync, isLoading: isMinting } = useWingsContractWrite(
+    {
       contractName: "MockERC20",
       functionName: "mint",
-      overrideContractAddress: getPriceFeedAddressForToken(
-        selectedToken?.name as AvailableTokens
-      ),
+      overrideContractAddress: {
+        address: getPriceFeedAddressForToken(
+          selectedToken?.name as AvailableTokens
+        ),
+      },
       args: [undefined, undefined],
       onSuccess: () => {
         setSelectedToken(undefined);
         setAmount(0);
       },
-    });
+    }
+  );
 
   return (
     <div>
