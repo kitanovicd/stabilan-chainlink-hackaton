@@ -7,9 +7,7 @@ import "../TokenFactory.sol";
 import "../StabilanCore.sol";
 import "../libraries/Constants.sol";
 import "../mock/MockERC20.sol";
-import "../mock/MockChronicleOracle.sol";
-import "../Insrd.sol";
-import "../InsurancePlugin.sol";
+import "../mock/MockChainlinkOracle.sol";
 import "../DataProvider.sol";
 
 contract Deploy is Script {
@@ -52,26 +50,11 @@ contract Deploy is Script {
         DataProvider dataProvider = new DataProvider();
         console.log("DataProvider address: ", address(dataProvider));
 
-        Insrd insrd = new Insrd();
-        insrd.mint(deployerAddress, 100000 ether);
-        console.log("Insrd address: ", address(insrd));
-
-        MockChronicleOracle insrdPriceFeed = new MockChronicleOracle();
-        insrdPriceFeed.setPrice(1 ether);
-        console.log("Insrd price feed address: ", address(insrdPriceFeed));
-
-        InsurancePlugin insurancePlugin = new InsurancePlugin(
-            address(stabilanCore),
-            address(dataProvider),
-            address(insrd)
-        );
-        console.log("InsurancePlugin address: ", address(insurancePlugin));
-
         MockERC20 usdc = new MockERC20("USDC", "USDC");
         usdc.mint(deployerAddress, 100000 ether);
         console.log("USDC address: ", address(usdc));
 
-        MockChronicleOracle usdcPriceFeed = new MockChronicleOracle();
+        MockChainlinkOracle usdcPriceFeed = new MockChainlinkOracle();
         usdcPriceFeed.setPrice(1 ether);
         console.log("USDC price feed address: ", address(usdcPriceFeed));
 
@@ -79,7 +62,7 @@ contract Deploy is Script {
         usdt.mint(deployerAddress, 100000 ether);
         console.log("USDT address: ", address(usdt));
 
-        MockChronicleOracle usdtPriceFeed = new MockChronicleOracle();
+        MockChainlinkOracle usdtPriceFeed = new MockChainlinkOracle();
         usdtPriceFeed.setPrice(1 ether);
         console.log("USDT price feed address: ", address(usdtPriceFeed));
 
@@ -87,14 +70,14 @@ contract Deploy is Script {
         weth.mint(deployerAddress, 100000 ether);
         console.log("WETH address: ", address(weth));
 
-        MockChronicleOracle wethPriceFeed = new MockChronicleOracle();
+        MockChainlinkOracle wethPriceFeed = new MockChainlinkOracle();
         wethPriceFeed.setPrice(2000 ether);
         console.log("WETH price feed address: ", address(wethPriceFeed));
 
         MockERC20 wbtc = new MockERC20("Wrapped Bitcoin", "wBTC");
         console.log("WBTC address: ", address(wbtc));
 
-        MockChronicleOracle wbtcPriceFeed = new MockChronicleOracle();
+        MockChainlinkOracle wbtcPriceFeed = new MockChainlinkOracle();
         wbtcPriceFeed.setPrice(50000 ether);
         console.log("WBTC price feed address: ", address(wbtcPriceFeed));
 
@@ -102,13 +85,11 @@ contract Deploy is Script {
         priceFeedAggregator.setPriceFeed(address(usdt), address(usdtPriceFeed));
         priceFeedAggregator.setPriceFeed(address(weth), address(wethPriceFeed));
         priceFeedAggregator.setPriceFeed(address(wbtc), address(wbtcPriceFeed));
-        priceFeedAggregator.setPriceFeed(address(insrd), address(insrdPriceFeed));
         console.log("Price feeds setted");
 
         stabilanCore.setupAsset(address(usdc), 0.8 ether, 0.97 ether, 0.1144 ether, address(weth));
         stabilanCore.setupAsset(address(usdt), 0.8 ether, 0.97 ether, 0.1031 ether, address(weth));
         stabilanCore.setupAsset(address(wbtc), 0.8 ether, 0.55 ether, 0.2471 ether, address(weth));
-        stabilanCore.setupAsset(address(insrd), 0.8 ether, 0.97 ether, 0.09226 ether, address(weth));
 
         console.log("Assets setuped");
 

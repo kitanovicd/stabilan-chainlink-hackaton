@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {IChronicleOracle} from "../interfaces/IChronicleOracle.sol";
+import {IChainlinkOracle} from "../interfaces/IChainlinkOracle.sol";
 
-contract MockChronicleOracle is IChronicleOracle {
+contract MockChainlinkOracle is IChainlinkOracle {
     uint256 public price;
 
     function setPrice(uint256 _price) external {
