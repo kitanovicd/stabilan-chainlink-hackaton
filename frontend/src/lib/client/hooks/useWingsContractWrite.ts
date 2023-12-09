@@ -28,22 +28,23 @@ export const useWingsContractWrite = <
   args,
   value,
   onBlockConfirmation,
-  blockConfirmations,
   overrideContractAddress,
+  blockConfirmations,
   ...writeConfig
 }: UseScaffoldWriteConfig<TContractName, TFunctionName>) => {
-  const { data: deployedContractData } = useDeployedContractInfo(contractName);
+  const { data: deployedContractData } = useDeployedContractInfo(
+    contractName,
+    overrideContractAddress?.address
+  );
   const { chain } = useNetwork();
   const [isMining, setIsMining] = useState(false);
   const configuredNetwork = getTargetNetwork();
 
   const wagmiContractWrite = useContractWrite({
-    address:
-      (overrideContractAddress as Address) ||
-      (deployedContractData?.address as Address),
+    address: deployedContractData?.address,
     abi: deployedContractData?.abi as Abi,
     functionName: functionName as any,
-    args: args as unknown[],
+    args: args as unknown[] | undefined,
     value: value,
     ...writeConfig,
   });
@@ -77,6 +78,7 @@ export const useWingsContractWrite = <
       return;
     }
 
+    const toastId = notification.loading("Interacting with the wallet.");
     try {
       setIsMining(true);
       const result = await wagmiContractWrite.writeAsync({
@@ -87,15 +89,17 @@ export const useWingsContractWrite = <
       if (onSuccess) {
         onSuccess();
       }
+
       return result;
     } catch (e: any) {
-      const message = getParsedError(e);
-      notification.error(message);
       if (onError) {
         onError(e);
       }
+      const message = getParsedError(e);
+      notification.error(message);
     } finally {
       setIsMining(false);
+      notification.remove(toastId);
       if (onSettled) {
         onSettled();
       }

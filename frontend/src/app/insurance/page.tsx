@@ -42,7 +42,6 @@ interface IToken {
 
 export default function Page() {
   const network = getTargetNetwork();
-  console.log({ modifiedName: network.modifiedName });
   // StabilanCore.getOptionsPrice(assetAddress, amount, duration, payingTokenAddress)
   const [months, setMonths] = useState(1);
   const [amount, setAmount] = useState("");
@@ -274,32 +273,6 @@ export default function Page() {
               </div>
             </div>
           </Card>
-          {selectedToken?.name === "INSRD" && (
-            <Card size="big">
-              <FlexCol className="gap-4">
-                <Typography type="h5">
-                  Subscirbe to insurance plugin!
-                </Typography>
-                <Button
-                  color="primary"
-                  className="w-32"
-                  size="small"
-                  loading={isSubscribing}
-                  onClick={() => {
-                    subscribeAsnyc({
-                      args: [
-                        contractAddressesByChain[
-                          network.modifiedName as AvailableChains
-                        ]?.INSRD,
-                      ],
-                    });
-                  }}
-                >
-                  Subscirbe
-                </Button>
-              </FlexCol>
-            </Card>
-          )}
           <TermsAndConditionCard />
         </div>
         <div className="md:col-span-4 col-span-12">

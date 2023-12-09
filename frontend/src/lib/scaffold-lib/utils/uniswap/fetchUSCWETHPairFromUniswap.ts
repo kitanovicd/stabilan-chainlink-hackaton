@@ -5,6 +5,7 @@ import { mainnet } from "wagmi";
 
 import { contractAddresses } from "../../../../app/config/Contract-Addresses";
 import { getTargetNetwork } from "../scaffold-eth";
+import { useTargetNetwork } from "lib/client/hooks/useTargetNetwork";
 
 const publicClient = createPublicClient({
   chain: mainnet,
@@ -25,7 +26,7 @@ export const fetchUSCWETHPairFromUniswap = async (): Promise<
     }
   | undefined
 > => {
-  const configuredNetwork = getTargetNetwork();
+  const { targetNetwork: configuredNetwork } = useTargetNetwork();
   if (
     configuredNetwork.nativeCurrency.symbol !== "ETH" &&
     configuredNetwork.nativeCurrency.symbol !== "SEP" &&

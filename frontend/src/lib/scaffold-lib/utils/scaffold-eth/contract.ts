@@ -8,7 +8,6 @@ import {
   ExtractAbiFunction,
 } from "abitype";
 import {
-  Address,
   Block,
   GetEventArgs,
   GetTransactionReceiptReturnType,
@@ -23,9 +22,10 @@ import {
 } from "wagmi";
 
 import scaffoldConfig from "../../../../../scaffold.config";
-import contractsData from "../../abi-wrapper/contracts";
+import { Address0x } from "../../../../app/config/Contract-Addresses";
+import contractsData from "../../contracts/externalContracts";
 
-import { Address0x } from "app/config/Contract-Addresses";
+import { GenericContractsDeclaration } from "./contract-types";
 
 /**
  * @description Combines members of an intersection into a readable type.
@@ -37,22 +37,9 @@ type Prettify<T> = {
   [K in keyof T]: T[K];
 } & unknown;
 
-export type GenericContractsDeclaration = {
-  [key: number]: readonly {
-    name: string;
-    chainId: string;
-    contracts: {
-      [key: string]: {
-        address: Address;
-        abi: Abi;
-      };
-    };
-  }[];
-};
-
 export const contracts = contractsData as GenericContractsDeclaration | null;
 
-type ConfiguredChainId = (typeof scaffoldConfig)["targetNetwork"]["id"];
+type ConfiguredChainId = (typeof scaffoldConfig)["targetNetworks"][0]["id"];
 
 type IsContractDeclarationMissing<TYes, TNo> = typeof contractsData extends {
   [key in ConfiguredChainId]: any;
@@ -65,7 +52,7 @@ type ContractsDeclaration = IsContractDeclarationMissing<
   typeof contractsData
 >;
 
-type Contracts = ContractsDeclaration[ConfiguredChainId][0]["contracts"];
+type Contracts = ContractsDeclaration[ConfiguredChainId];
 
 export type ContractName = keyof Contracts;
 
@@ -172,6 +159,9 @@ export type UseScaffoldReadConfig<
   >
 > = {
   contractName: TContractName;
+  overrideContractAddress?: {
+    address?: Address0x;
+  };
 } & IsContractDeclarationMissing<
   Partial<UseContractReadConfig>,
   {
@@ -193,7 +183,9 @@ export type UseScaffoldWriteConfig<
   contractName: TContractName;
   onBlockConfirmation?: (txnReceipt: TransactionReceipt) => void;
   blockConfirmations?: number;
-  overrideContractAddress?: Address0x;
+  overrideContractAddress?: {
+    address?: Address0x;
+  };
 } & IsContractDeclarationMissing<
   Partial<UseContractWriteConfig>,
   {

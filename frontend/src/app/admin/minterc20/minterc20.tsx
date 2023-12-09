@@ -7,8 +7,8 @@ import { useAccount } from "wagmi";
 import { Address0x } from "app/config/Contract-Addresses";
 import { getAddressByTokenAndNetwork, tokens } from "app/config/tokens";
 import { Button, Card, FlexCol, Icon, InputField, Typography } from "lib";
-import { useWingsContractWrite2 } from "lib/client/hooks/useWingsContractWrite2";
 import { getTargetNetwork } from "lib/scaffold-lib/utils/scaffold-eth";
+import { useWingsContractWrite } from "lib/client/hooks/useWingsContractWrite";
 
 interface IToken {
   name: string;
@@ -30,19 +30,22 @@ export const Minterc20 = () => {
     setSelectedToken(token);
   };
 
-  const { writeAsync: mintAsync, isLoading: isMinting } =
-    useWingsContractWrite2({
+  const { writeAsync: mintAsync, isLoading: isMinting } = useWingsContractWrite(
+    {
       contractName: "MockERC20",
       functionName: "mint",
-      overrideContractAddress: selectedToken
-        ? getAddressByTokenAndNetwork(selectedToken.name, network.modifiedName)
-        : undefined,
+      overrideContractAddress: {
+        address: selectedToken
+          ? getAddressByTokenAndNetwork(selectedToken.name, network.name)
+          : undefined,
+      },
       args: [undefined, undefined],
       onSuccess: () => {
         setSelectedToken(undefined);
         setAmount(0);
       },
-    });
+    }
+  );
 
   return (
     <div>

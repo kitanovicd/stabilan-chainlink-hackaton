@@ -1,9 +1,8 @@
 import scaffoldConfig from "../../../../../scaffold.config";
 
-import { ContractName, contracts } from "./contract";
+import { contracts, ContractName } from "./contract";
 
 export function getContractNames() {
-  const contractsData =
-    contracts?.[scaffoldConfig.targetNetwork.id]?.[0]?.contracts;
+  const contractsData = contracts?.[scaffoldConfig.targetNetworks[0].id];
   return contractsData ? (Object.keys(contractsData) as ContractName[]) : [];
 }

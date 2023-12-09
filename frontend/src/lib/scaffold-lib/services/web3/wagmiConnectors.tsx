@@ -10,9 +10,6 @@ import {
 } from "@rainbow-me/rainbowkit/wallets";
 import { configureChains } from "wagmi";
 import * as chains from "wagmi/chains";
-// import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
-import { publicProvider } from "wagmi/providers/public";
-import { alchemyProvider } from "wagmi/providers/alchemy";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 import scaffoldConfig from "../../../../../scaffold.config";
@@ -28,18 +25,17 @@ const configuredNetwork = getTargetNetwork();
 const { onlyLocalBurnerWallet } = scaffoldConfig;
 
 // We always want to have mainnet enabled (ENS resolution, ETH price, etc). But only once.
-// const enabledChains = [chains.sepolia, chains.base];
-
-const enabledChains =
-  configuredNetwork.id === 1
-    ? [configuredNetwork]
-    : [configuredNetwork, chains.base];
+const enabledChains = [
+  configuredNetwork,
+  chains.baseGoerli,
+  chains.avalancheFuji,
+];
 
 export const appChains = configureChains(
   enabledChains,
   [
     jsonRpcProvider({
-      rpc: (chain) => ({
+      rpc: (_chain) => ({
         http: process.env.NEXT_PUBLIC_RPC_URL || "",
       }),
     }),
@@ -63,7 +59,7 @@ const wallets = [
   walletConnectWallet(walletsOptions),
   ledgerWallet(walletsOptions),
   braveWallet(walletsOptions),
-  coinbaseWallet({ ...walletsOptions, appName: "chi-protocol" }),
+  coinbaseWallet({ ...walletsOptions, appName: "stabilan" }),
   rainbowWallet(walletsOptions),
   ...(configuredNetwork.id === chains.hardhat.id || !onlyLocalBurnerWallet
     ? [burnerWalletConfig({ chains: [appChains.chains[0]] })]

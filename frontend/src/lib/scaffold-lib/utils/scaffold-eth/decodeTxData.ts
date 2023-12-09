@@ -1,20 +1,20 @@
 "use client";
 
 import { Abi, decodeFunctionData, getAbiItem } from "viem";
-import { hardhat } from "wagmi/chains";
+import { hardhat } from "viem/chains";
 
-import contractData from "../../abi-wrapper/contracts";
+import contractData from "../../contracts/externalContracts";
 
 import { TransactionWithFunction } from "./block";
-import { GenericContractsDeclaration } from "./contract";
+import { GenericContractsDeclaration } from "./contract-types";
 
 type ContractsInterfaces = Record<string, Abi>;
 type TransactionType = TransactionWithFunction | null;
 
 const deployedContracts = contractData as GenericContractsDeclaration | null;
-const chainMetaData = deployedContracts?.[hardhat.id]?.[0];
+const chainMetaData = deployedContracts?.[hardhat.id];
 const interfaces = chainMetaData
-  ? Object.entries(chainMetaData.contracts).reduce(
+  ? Object.entries(chainMetaData).reduce(
       (finalInterfacesObj, [contractName, contract]) => {
         finalInterfacesObj[contractName] = contract.abi;
         return finalInterfacesObj;

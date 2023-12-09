@@ -1,13 +1,11 @@
-"use client";
-
 import { CurrencyAmount, Token } from "@uniswap/sdk-core";
 import { Pair, Route } from "@uniswap/v2-sdk";
-import { createPublicClient, http, parseAbi } from "viem";
+import { Address, createPublicClient, http, parseAbi } from "viem";
 import { mainnet } from "wagmi";
 
 import scaffoldConfig from "../../../../../scaffold.config";
 
-import { getTargetNetwork } from "./networks";
+import { ChainWithAttributes } from "./networks";
 
 const publicClient = createPublicClient({
   chain: mainnet,
@@ -22,14 +20,13 @@ const ABI = parseAbi([
   "function token1() external view returns (address)",
 ]);
 
-export const fetchPriceFromUniswap = async (): Promise<number> => {
-  const mockAddress = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
-
-  const configuredNetwork = getTargetNetwork();
+export const fetchPriceFromUniswap = async (
+  targetNetwork: ChainWithAttributes
+): Promise<number> => {
   if (
-    configuredNetwork.nativeCurrency.symbol !== "ETH" &&
-    configuredNetwork.nativeCurrency.symbol !== "SEP" &&
-    !configuredNetwork.nativeCurrencyTokenAddress
+    targetNetwork.nativeCurrency.symbol !== "ETH" &&
+    targetNetwork.nativeCurrency.symbol !== "SEP" &&
+    !targetNetwork.nativeCurrencyTokenAddress
   ) {
     return 0;
   }
@@ -37,10 +34,11 @@ export const fetchPriceFromUniswap = async (): Promise<number> => {
     const DAI = new Token(1, "0x6B175474E89094C44Da98b954EedeAC495271d0F", 18);
     const TOKEN = new Token(
       1,
-      configuredNetwork.nativeCurrencyTokenAddress || mockAddress,
+      targetNetwork.nativeCurrencyTokenAddress ||
+        "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
       18
     );
-    const pairAddress = Pair.getAddress(TOKEN, DAI);
+    const pairAddress = Pair.getAddress(TOKEN, DAI) as Address;
 
     const wagmiConfig = {
       address: pairAddress,
@@ -50,19 +48,16 @@ export const fetchPriceFromUniswap = async (): Promise<number> => {
     const reserves = await publicClient.readContract({
       ...wagmiConfig,
       functionName: "getReserves",
-      address: mockAddress,
     });
 
     const token0Address = await publicClient.readContract({
       ...wagmiConfig,
       functionName: "token0",
-      address: mockAddress,
     });
 
     const token1Address = await publicClient.readContract({
       ...wagmiConfig,
       functionName: "token1",
-      address: mockAddress,
     });
     const token0 = [TOKEN, DAI].find(
       (token) => token.address === token0Address
@@ -79,7 +74,7 @@ export const fetchPriceFromUniswap = async (): Promise<number> => {
     return price;
   } catch (error) {
     console.error(
-      "useNativeCurrencyPrice - Error fetching ETH price from Uniswap: ",
+      `useNativeCurrencyPrice - Error fetching ${targetNetwork.nativeCurrency.symbol} price from Uniswap: `,
       error
     );
     return 0;

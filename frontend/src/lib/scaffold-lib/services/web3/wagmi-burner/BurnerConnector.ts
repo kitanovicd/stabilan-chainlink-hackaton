@@ -1,5 +1,6 @@
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import {
+  Address,
   Chain,
   HttpTransport,
   PrivateKeyAccount,
@@ -10,22 +11,19 @@ import {
 import { privateKeyToAccount } from "viem/accounts";
 import { Connector } from "wagmi";
 
-import { getTargetNetwork } from "../../../utils/scaffold-eth";
-
 import {
   BurnerConnectorError,
   BurnerConnectorErrorList,
 } from "./BurnerConnectorErrors";
 import {
-  BurnerConnectorData,
   BurnerConnectorOptions,
+  BurnerConnectorData,
 } from "./BurnerConnectorTypes";
 
 import { loadBurnerSK } from "lib/scaffold-lib/utils/scaffold-eth/sk";
 
 export const burnerWalletId = "burner-wallet";
 export const burnerWalletName = "Burner Wallet";
-export const defaultBurnerChainId = getTargetNetwork().id;
 
 /**
  * This class is a wagmi connector for BurnerWallet.  Its used by {@link burnerWalletConfig}
@@ -47,8 +45,7 @@ export class BurnerConnector extends Connector<
     | undefined;
 
   constructor(config: { chains?: Chain[]; options: BurnerConnectorOptions }) {
-    // todo any?
-    super(config as any);
+    super(config);
     this.burnerWallet = undefined;
   }
 
@@ -78,6 +75,7 @@ export class BurnerConnector extends Connector<
   async connect(
     config?: { chainId?: number | undefined } | undefined
   ): Promise<Required<BurnerConnectorData>> {
+    console.log("connect?");
     const chain = this.getChainFromId(config?.chainId);
 
     this.provider = new StaticJsonRpcProvider(chain.rpcUrls.default.http[0]);
@@ -102,6 +100,7 @@ export class BurnerConnector extends Connector<
 
     return Promise.resolve(data);
   }
+
   private getChainFromId(chainId?: number) {
     const resolveChainId = chainId ?? this.options.defaultChainId;
     const chain = this.chains.find((f) => f.id === resolveChainId);
@@ -118,9 +117,9 @@ export class BurnerConnector extends Connector<
     return Promise.resolve();
   }
 
-  async getAccount(): Promise<`0x${string}`> {
+  async getAccount(): Promise<Address> {
     const bunerAccount = privateKeyToAccount(loadBurnerSK());
-    return bunerAccount.address as `0x${string}`;
+    return bunerAccount.address as Address;
   }
 
   async getChainId(): Promise<number> {
@@ -156,6 +155,15 @@ export class BurnerConnector extends Connector<
     });
     this.burnerWallet = client;
   }
+
+  async switchChain(chainId: number) {
+    const chain = this.getChainFromId(chainId);
+    this.provider = new StaticJsonRpcProvider(chain.rpcUrls.default.http[0]);
+
+    await this.onChainChanged();
+    return chain;
+  }
+
   protected async onChainChanged() {
     const chainId = await this.getChainId();
     const chain = this.getChainFromId(chainId);
@@ -167,7 +175,9 @@ export class BurnerConnector extends Connector<
       transport: http(),
     });
     this.burnerWallet = client;
+    this.emit("change", { chain: { id: chainId, unsupported: false } });
   }
+
   protected onDisconnect(error: Error): void {
     if (error) console.warn(error);
   }

@@ -1,37 +1,73 @@
 export type Address0x = `0x${string}`;
 
-export const contractAddresses = {
-  USC: "0xf66423533d8bA9ce2ACDf2F5F07F4fb9106e9AFb" as Address0x,
-  USC_ETH_LP: "0x7BbA26c60757aFe110E0BEA985CC70cb59Dd9E96" as Address0x,
-  ETH_USD_oracle: "0xB7b006e8bDe998206C72a9aB456495b1998D42E0" as Address0x,
-  stETH_USD_oracle: "0x8EC279087f1fC188A009251cc1381c222b4102e1" as Address0x,
-  USC_USD_oracle: "0x6A4aCb742600FE0Be6c5aC1Bb640548525396042" as Address0x,
-  PriceFeedAggregator:
-    "0x3e726C563500bC255CB858269D1862cc258491c3" as Address0x,
-  ReserveHolder: "0x7B690e89fc80875B658aBeb0567b70a7a1D9Ec60" as Address0x,
-  Arbitrage: "0xbC645ce455EaD9d230fbbe6E2cE2AFf848bD3a58" as Address0x,
-  WETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" as Address0x,
-  WETHPriceFeed: "0x41c88c245BeAf41fb0F09B8022F7F479c5032245" as Address0x, // Updated WETH address
-  ETH_ADDRESS: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" as Address0x,
-  stETH: "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84" as Address0x,
-  Uniswapv2Router: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D" as Address0x,
-  DataProvider: "0xb2ba959db02876C6e7B44CB50bffd3DE75fC3C4c" as Address0x,
-  // stabilan specific
-  USDC: "0x0D055518E94632b54aCf7b79b03f438B0f1BF049" as Address0x,
-  USDCPriceFeed: "0x5575166bE5043Ab5B6043D298Eb66A7C1Ce185Ce" as Address0x,
-  USDT: "0x467c6D3991B99F9EdFeB14d41e69457A1ef1fd23" as Address0x,
-  USDTPriceFeed: "0x4dd6EA4b4929b8c06D8434A9B9552d92500eE251" as Address0x,
-  GHO: "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f" as Address0x,
-  DAI: "0x5dae6701E0b68d55994950eFE8f66127C6e28167" as Address0x,
-  DaiPriceFeed: "0xbC645ce455EaD9d230fbbe6E2cE2AFf848bD3a58" as Address0x,
-  coreContractAddress:
-    "0x89369f1B135b13b625EdD4882f41A8a66892c958" as Address0x,
-  TokenFactory: "0x8D5C6cbD2cfCB4e22e360bCe7F6AC6fc305D8a4e" as Address0x,
-  StabilanCore: "0x727b5d0151e741f35457f44b7eAD596d6FBf5771" as Address0x,
-  wBTC: "0x9cFa38b0558A1DbddE45c0d9A504Be0D28fe6289" as Address0x,
-  wBTCPriceFeed: "0xD45214fcFBE25B30D86054c18178dD2EB35136dc" as Address0x,
-  INSRD: "0xc" as Address0x,
-  INSRDPriceFeed: "0xD" as Address0x,
+interface ContractAddresses {
+  USC: Address0x;
+  CHI: Address0x;
+  USC_ETH_LP: Address0x;
+  CHI_ETH_LP: Address0x;
+  ETH_USD_oracle: Address0x;
+  stETH_USD_oracle: Address0x;
+  USC_USD_oracle: Address0x;
+  CHI_USD_oracle: Address0x;
+  PriceFeedAggregator: Address0x;
+  ChiStaking: Address0x;
+  ChiLocking: Address0x;
+  ChiVesting: Address0x;
+  USCStaking: Address0x;
+  ReserveHolder: Address0x;
+  RewardController: Address0x;
+  TimeWeightedBonding: Address0x;
+  Arbitrage: Address0x;
+  veCHI: Address0x;
+  WETH: Address0x;
+  ETH_ADDRESS: Address0x;
+  stETH: Address0x;
+  Uniswapv2Router: Address0x;
+  DataProvider: Address0x;
+  OCHI: Address0x;
+  USC_ETH_LP_rewards: Address0x;
+  CHI_ETH_LP_rewards: Address0x;
+  USC_ETH_LP_Staking: Address0x;
+  CHI_ETH_LP_Staking: Address0x;
+  UniswapV2TwapOracle: Address0x;
+  IDO: Address0x;
+  TestpageHelper: Address0x;
+  // lpRewards: Address0x;
+}
+
+export const contractAddresses: ContractAddresses = {
+  USC: "0x816D97bCa4EAdeE507436599be19c3f9D94f3112",
+  CHI: "0x8A1e2Ee1456D17C68f36C802D4864609155F95c0",
+  USC_ETH_LP: "0xbb0A8C387b150E3152CA6aF5fB8EeC9782fDAbaF",
+  CHI_ETH_LP: "0x49b1Bc3Aa3fCCFB2C75d15F3b1b8CFCC269c2550",
+  ETH_USD_oracle: "0x828B33261E72e8582600bD3ed58F5FB64024BBec",
+  stETH_USD_oracle: "0x4586F01442572585481e7ff30d0842681f605CFD",
+  USC_USD_oracle: "0x9dbac3DDBC8851E6508B6860144584DFC69416fE",
+  CHI_USD_oracle: "0x5846648007513E88300cD8AEba0Ad6a9E597C9B6",
+  PriceFeedAggregator: "0x7428e2d3675DC00D41b6615aF5A911723831A38C",
+  ChiStaking: "0xa742D5a1Fa1Fd18c8C947b07256B75488F8513F6",
+  ChiLocking: "0x10fD1cC7C8E4c87a44AD3D9CF77f98AAecD3d3DB",
+  USC_ETH_LP_Staking: "0xAB358b430CA018CaBD1f48637544d455E44e0a67",
+  CHI_ETH_LP_Staking: "0x4b5Feb5A1AaAfc7Aa3ba0b1960f80e7c70baf784",
+  ChiVesting: "0xE5837610bFcAFdFe153Ae20b709044c33189ae39",
+  USCStaking: "0x5E04AA83D821C4830EB9B170C4720CD47DeAA967",
+  ReserveHolder: "0xAA7581642Daf2f19d4c35eF96583522ddf5aAC22",
+  RewardController: "0x24bb23d3333bb3220aCEE4bc2FC486003ca512a1",
+  USC_ETH_LP_rewards: "0x9099B0C6f35c8Fc1BaF4635A594D89FEfc843CBE",
+  CHI_ETH_LP_rewards: "0xeFD08D9508092Bf1C5e801Dc22E51FDE43d886F0",
+  OCHI: "0x541D29B3e0A4A64389aB66d2c807Dcb5e2CB873E",
+  TimeWeightedBonding: "0x28D661531B26C364E45c9fbc67607cccD58733e7",
+  IDO: "0xAd1f60ac66B1914863FCfdb4ACC1275f6a1F2a18",
+  Arbitrage: "0x174243d312492d813B3d2A72416Ad375Cb3Ff3E5",
+  veCHI: "0x7E75c12E621F60DeF2d317322668d5B6C5378da5",
+  DataProvider: "0x23D6318a3835e4Dc3122A9b12A2Ce59F83B85E7E",
+  TestpageHelper: "0x878442E3Ae49C73aE0BE2C319Da9194Ee03fc2c7",
+  // common
+  WETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+  ETH_ADDRESS: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+  stETH: "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
+  Uniswapv2Router: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+  UniswapV2TwapOracle: "0xedAeDD22e653c504ff6806bf61664292848eB26e",
 };
 
 export type AvailableChains = "sepolia" | "base" | "polygonZkevmTestnet";
@@ -55,6 +91,7 @@ export const contractAddressesByChain = {
     StabilanCore: "0xfdf2bF3688F0AF7B0Baef04afde43FBC72530b7f" as Address0x,
   },
   base: {
+    ...contractAddresses,
     TokenFactory: "0x48AC85A71Cb5E1384A365fFf3D5f717B4eD411d0" as Address0x,
     PriceFeedAggregator:
       "0xA43D0B09A636DffB998d824b62117b83523289e6" as Address0x,
@@ -75,6 +112,7 @@ export const contractAddressesByChain = {
     GHOPriceFeed: "0x33D572F7Dc6FA6dEe50C69E94821501481803560" as Address0x, // unchanged
   },
   polygonZkevmTestnet: {
+    ...contractAddresses,
     PriceFeedAggregator:
       "0x33a6C9d81E5324544A3d6c41CBedB65091ba0665" as Address0x,
     USDC: "0x55eF0864304a361D33c7c0a0083D153b2D26a7A9" as Address0x,

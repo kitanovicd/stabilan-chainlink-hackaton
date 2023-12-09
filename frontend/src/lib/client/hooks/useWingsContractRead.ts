@@ -29,10 +29,14 @@ export const useWingsContractRead = <
 >({
   contractName,
   functionName,
+  overrideContractAddress,
   args,
   ...readConfig
 }: UseScaffoldReadConfig<TContractName, TFunctionName>) => {
-  const { data: deployedContract } = useDeployedContractInfo(contractName);
+  const { data: deployedContract } = useDeployedContractInfo(
+    contractName,
+    overrideContractAddress?.address
+  );
 
   return useContractRead({
     chainId: getTargetNetwork().id,
@@ -41,7 +45,9 @@ export const useWingsContractRead = <
     abi: deployedContract?.abi,
     watch: true,
     args,
-    enabled: !Array.isArray(args) || !args.some((arg) => arg === undefined),
+    enabled:
+      !Array.isArray(args) ||
+      !(args as unknown[])?.some((arg) => arg === undefined),
     ...(readConfig as any),
   }) as Omit<ReturnType<typeof useContractRead>, "data" | "refetch"> & {
     data: AbiFunctionReturnType<ContractAbi, TFunctionName> | undefined;

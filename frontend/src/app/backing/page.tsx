@@ -26,7 +26,6 @@ import {
 import { getAddressByTokenAndNetwork, tokens } from "app/config/tokens";
 import { useWingsContractRead } from "lib/client/hooks/useWingsContractRead";
 import { useWingsContractWrite } from "lib/client/hooks/useWingsContractWrite";
-import { useWingsContractWrite2 } from "lib/client/hooks/useWingsContractWrite2";
 import { getTargetNetwork } from "lib/scaffold-lib/utils/scaffold-eth";
 import { getDateAsLastDayOfTheMonth } from "lib/utils/date/find-last-day-of-the-month";
 
@@ -88,7 +87,7 @@ export default function Page() {
 
   // todo check if this is working - overrideContractAddress??
   const { writeAsync: approveOptionsAsync, isLoading: isApproving } =
-    useWingsContractWrite2({
+    useWingsContractWrite({
       contractName: "WETH",
       functionName: "approve",
       overrideContractAddress: assetsConfig ? (assetsConfig as any)[0] : "0xss",

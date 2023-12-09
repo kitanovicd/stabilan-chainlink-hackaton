@@ -1,8 +1,15 @@
-"use client";
-
-import * as chains from "wagmi/chains";
+/*eslint import/namespace: ['error', { allowComputed: true }]*/
+import * as chains from "viem/chains";
 
 import scaffoldConfig from "../../../../../scaffold.config";
+
+type ChainAttributes = {
+  // color | [lightThemeColor, darkThemeColor]
+  color: string | [string, string];
+  // Used to fetch price by providing mainnet token address
+  // for networks having native currency other than ETH
+  nativeCurrencyTokenAddress?: string;
+};
 
 export type TChainAttributes = {
   // color | [lightThemeColor, darkThemeColor]
@@ -12,7 +19,9 @@ export type TChainAttributes = {
   nativeCurrencyTokenAddress?: string;
 };
 
-export const NETWORKS_EXTRA_DATA: Record<string, TChainAttributes> = {
+export type ChainWithAttributes = chains.Chain & Partial<ChainAttributes>;
+
+export const NETWORKS_EXTRA_DATA: Record<string, ChainAttributes> = {
   [chains.hardhat.id]: {
     color: "#b8af0c",
   },
@@ -61,15 +70,12 @@ export const NETWORKS_EXTRA_DATA: Record<string, TChainAttributes> = {
 
 /**
  * Gives the block explorer transaction URL.
- * @param network
- * @param txnHash
- * @dev returns empty string if the network is localChain
+ * Returns empty string if the network is a local chain
  */
 export function getBlockExplorerTxLink(chainId: number, txnHash: string) {
   const chainNames = Object.keys(chains);
 
   const targetChainArr = chainNames.filter((chainName) => {
-    // eslint-disable-next-line import/namespace
     const wagmiChain = chains[chainName as keyof typeof chains];
     return wagmiChain.id === chainId;
   });
@@ -80,7 +86,6 @@ export function getBlockExplorerTxLink(chainId: number, txnHash: string) {
 
   const targetChain = targetChainArr[0] as keyof typeof chains;
   // @ts-expect-error : ignoring error since `blockExplorers` key may or may not be present on some chains
-  // eslint-disable-next-line import/namespace
   const blockExplorerTxURL = chains[targetChain]?.blockExplorers?.default?.url;
 
   if (!blockExplorerTxURL) {
@@ -91,10 +96,8 @@ export function getBlockExplorerTxLink(chainId: number, txnHash: string) {
 }
 
 /**
- * Gives the block explorer Address URL.
- * @param network - wagmi chain object
- * @param address
- * @returns block explorer address URL and etherscan URL if block explorer URL is not present for wagmi network
+ * Gives the block explorer URL for a given address.
+ * Defaults to Etherscan if no (wagmi) block explorer is configured for the network.
  */
 export function getBlockExplorerAddressLink(
   network: chains.Chain,
@@ -113,28 +116,19 @@ export function getBlockExplorerAddressLink(
 }
 
 /**
- * @returns targetNetwork object consisting targetNetwork from scaffold.config and extra network metadata
+ * @returns targetNetworks array containing networks configured in scaffold.config including extra network metadata
  */
-export type ExtendedChainInfo = chains.Chain &
-  Partial<TChainAttributes> & { modifiedName: string };
-
-export function getTargetNetwork(): ExtendedChainInfo {
-  const configuredNetwork = scaffoldConfig.targetNetwork;
-
-  // Convert network name to camelCase if it contains hyphens
-  const modifiedName = configuredNetwork.network.includes("-")
-    ? toCamelCase(configuredNetwork.network)
-    : configuredNetwork.network;
-
-  return {
-    ...configuredNetwork,
-    ...NETWORKS_EXTRA_DATA[configuredNetwork.id],
-    modifiedName: modifiedName,
-  };
+export function getTargetNetworks(): ChainWithAttributes[] {
+  return scaffoldConfig.targetNetworks.map((targetNetwork) => ({
+    ...targetNetwork,
+    ...NETWORKS_EXTRA_DATA[targetNetwork.id],
+  }));
 }
 
-function toCamelCase(str: string) {
-  return str.replace(/-([a-z])/g, function (g) {
-    return g[1].toUpperCase();
-  });
+/**
+ * @returns targetNetwork object consisting targetNetwork from scaffold.config and extra network metadata
+ */
+export function getTargetNetwork(): chains.Chain & Partial<TChainAttributes> {
+  const targetNetworks = getTargetNetworks();
+  return targetNetworks[0];
 }
