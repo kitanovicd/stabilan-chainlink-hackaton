@@ -13,6 +13,7 @@ import { contractAddressesByChain } from "app/config/Contract-Addresses";
  * } as const;
  */
 const externalContracts = {
+  //polygonZkEvmTestnet
   1442: {
     PriceFeedAggregator: {
       address: contractAddressesByChain.polygonZkevmTestnet.PriceFeedAggregator,
@@ -2755,9 +2756,10 @@ const externalContracts = {
       ],
     },
   },
+  //base
   84531: {
     PriceFeedAggregator: {
-      address: contractAddressesByChain.polygonZkevmTestnet.PriceFeedAggregator,
+      address: contractAddressesByChain.baseGoerli.PriceFeedAggregator,
       abi: [
         {
           inputs: [],
@@ -2899,7 +2901,7 @@ const externalContracts = {
       ],
     },
     WETH: {
-      address: contractAddressesByChain.polygonZkevmTestnet.WETH,
+      address: contractAddressesByChain.baseGoerli.WETH,
       abi: [
         {
           constant: true,
@@ -3055,7 +3057,7 @@ const externalContracts = {
       ],
     },
     StabilanCore: {
-      address: contractAddressesByChain.polygonZkevmTestnet.StabilanCore,
+      address: contractAddressesByChain.baseGoerli.StabilanCore,
       abi: [
         {
           inputs: [
@@ -3680,7 +3682,7 @@ const externalContracts = {
       ],
     },
     DataProvider: {
-      address: contractAddressesByChain.polygonZkevmTestnet.DataProvider,
+      address: contractAddressesByChain.baseGoerli.DataProvider,
       abi: [
         {
           inputs: [
@@ -3741,7 +3743,7 @@ const externalContracts = {
       ],
     },
     INSRD: {
-      address: contractAddressesByChain.polygonZkevmTestnet.INSRD,
+      address: contractAddressesByChain.baseGoerli.INSRD,
       abi: [
         {
           inputs: [],
@@ -4352,7 +4354,7 @@ const externalContracts = {
       ],
     },
     MockERC20: {
-      address: contractAddressesByChain.polygonZkevmTestnet.WETH,
+      address: contractAddressesByChain.baseGoerli.WETH,
       abi: [
         {
           inputs: [
@@ -4717,7 +4719,7 @@ const externalContracts = {
       ],
     },
     MockPriceFeedAggregator: {
-      address: contractAddressesByChain.polygonZkevmTestnet.WETH,
+      address: contractAddressesByChain.baseGoerli.WETH,
       abi: [
         {
           inputs: [
@@ -4778,7 +4780,7 @@ const externalContracts = {
       ],
     },
     BackingToken: {
-      address: contractAddressesByChain.polygonZkevmTestnet.BackingToken,
+      address: contractAddressesByChain.baseGoerli.BackingToken,
       abi: [
         {
           inputs: [
@@ -5428,7 +5430,7 @@ const externalContracts = {
       ],
     },
     TestpageHelper: {
-      address: contractAddressesByChain.polygonZkevmTestnet.TestpageHelper,
+      address: contractAddressesByChain.baseGoerli.TestpageHelper,
       abi: [
         {
           inputs: [
@@ -5497,9 +5499,10 @@ const externalContracts = {
       ],
     },
   },
+  //avalancheFuji
   43113: {
     PriceFeedAggregator: {
-      address: contractAddressesByChain.polygonZkevmTestnet.PriceFeedAggregator,
+      address: contractAddressesByChain.avalancheFuji.PriceFeedAggregator,
       abi: [
         {
           inputs: [],
@@ -5641,7 +5644,7 @@ const externalContracts = {
       ],
     },
     WETH: {
-      address: contractAddressesByChain.polygonZkevmTestnet.WETH,
+      address: contractAddressesByChain.avalancheFuji.WETH,
       abi: [
         {
           constant: true,
@@ -5797,7 +5800,7 @@ const externalContracts = {
       ],
     },
     StabilanCore: {
-      address: contractAddressesByChain.polygonZkevmTestnet.StabilanCore,
+      address: contractAddressesByChain.avalancheFuji.StabilanCore,
       abi: [
         {
           inputs: [
@@ -6422,7 +6425,7 @@ const externalContracts = {
       ],
     },
     DataProvider: {
-      address: contractAddressesByChain.polygonZkevmTestnet.DataProvider,
+      address: contractAddressesByChain.avalancheFuji.DataProvider,
       abi: [
         {
           inputs: [
@@ -6483,7 +6486,7 @@ const externalContracts = {
       ],
     },
     INSRD: {
-      address: contractAddressesByChain.polygonZkevmTestnet.INSRD,
+      address: contractAddressesByChain.avalancheFuji.INSRD,
       abi: [
         {
           inputs: [],
@@ -7094,7 +7097,7 @@ const externalContracts = {
       ],
     },
     MockERC20: {
-      address: contractAddressesByChain.polygonZkevmTestnet.WETH,
+      address: contractAddressesByChain.avalancheFuji.WETH,
       abi: [
         {
           inputs: [
@@ -7459,7 +7462,7 @@ const externalContracts = {
       ],
     },
     MockPriceFeedAggregator: {
-      address: contractAddressesByChain.polygonZkevmTestnet.WETH,
+      address: contractAddressesByChain.avalancheFuji.WETH,
       abi: [
         {
           inputs: [
@@ -7520,7 +7523,7 @@ const externalContracts = {
       ],
     },
     BackingToken: {
-      address: contractAddressesByChain.polygonZkevmTestnet.BackingToken,
+      address: contractAddressesByChain.avalancheFuji.BackingToken,
       abi: [
         {
           inputs: [
@@ -8170,7 +8173,7 @@ const externalContracts = {
       ],
     },
     TestpageHelper: {
-      address: contractAddressesByChain.polygonZkevmTestnet.TestpageHelper,
+      address: contractAddressesByChain.avalancheFuji.TestpageHelper,
       abi: [
         {
           inputs: [
