@@ -3,7 +3,7 @@ pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts/interfaces/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "./interfaces/IOptionToken.sol";
+import "../interfaces/IOptionToken.sol";
 import "./StabilanToken.sol";
 
 contract OptionToken is IOptionToken, StabilanToken {

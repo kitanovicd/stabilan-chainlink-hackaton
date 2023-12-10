@@ -2,11 +2,11 @@
 pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts/interfaces/IERC20.sol";
-import "./interfaces/IBackingToken.sol";
-import "./interfaces/IOptionToken.sol";
+import "../interfaces/IBackingToken.sol";
+import "../interfaces/IOptionToken.sol";
 import "./OptionToken.sol";
 import "./BackingToken.sol";
-import "./interfaces/ITokenFactory.sol";
+import "../interfaces/ITokenFactory.sol";
 
 contract TokenFactory is ITokenFactory {
     function deployOptionToken(

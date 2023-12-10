@@ -3,7 +3,7 @@ pragma solidity ^0.8.18;
 
 import "forge-std/script.sol";
 import "../PriceFeedAggregator.sol";
-import "../TokenFactory.sol";
+import "../tokens/TokenFactory.sol";
 import "../StabilanCore.sol";
 import "../libraries/Constants.sol";
 import "../mock/MockERC20.sol";

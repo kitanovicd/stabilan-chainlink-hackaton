@@ -84,7 +84,7 @@ contract StabilanCore is IStabilanCore, Ownable {
             AssetConfig storage assetConfig = assetsConfig[assetAddress];
 
             (IOptionToken optionToken, IBackingToken backingToken) = _deployOptionBackingTokenPair(
-                assetAddress, assetConfig.collateralAsset, currentEpoch + MAX_EPOCH_DURATION
+                assetAddress, assetConfig.collateralAsset, currentEpoch + MAX_EPOCH_DURATION - 1
             );
 
             uint256 currAssetPrice = priceFeedAggregator.getLatestPrice(assetAddress);
@@ -96,7 +96,7 @@ contract StabilanCore is IStabilanCore, Ownable {
         AssetEpochData storage assetData = assetsData[assetAddress][currentEpoch + durationEpochs - 1];
         AssetConfig storage assetConfig = assetsConfig[assetAddress];
 
-        (uint256 optionsPrice, uint256[] memory optionsEpochPrice) =
+        (uint256 optionsPrice, uint256 totalEpochsBacking) =
             getOptionsPrice(assetAddress, amount, durationEpochs, address(assetData.backingToken.underlying()));
 
         IERC20(assetConfig.collateralAsset).transferFrom(msg.sender, address(this), optionsPrice);
@@ -117,8 +117,21 @@ contract StabilanCore is IStabilanCore, Ownable {
 
             epochData.reservedAmount += amount;
 
-            epochData.totalPremium += optionsEpochPrice[i];
-            epochData.collateralAmount += optionsEpochPrice[i];
+            // epochData.totalPremium += optionsEpochPrice[i];
+            // epochData.collateralAmount += optionsEpochPrice[i];
+            
+            // // TODO: za svih 6 ?!
+            // uint256 totalRewards = rewardsToNext + optionsEpochPrice[i];
+            // uint256 backingTotalSupply = assetData.backingToken.totalSupply();
+            // uint256 rewardsToThisEpoch = (backingTotalSupply / epochData.collateralAmount) * totalRewards;
+
+            // backingTokenTotalSupply() += rewardsToThisEpoch;
+            // rewardsToNext = totalRewards - rewardsToThisEpoch; 
+        }
+
+        for(uint256 i = 0; i < MAX_EPOCH_DURATION - durationEpochs + 1; i++) {
+            uint256 epochPremium = (assetsData[assetAddress][currentEpoch + durationEpochs - 1 + i].backingToken.totalSupply() * optionsPrice) / totalEpochsBacking;
+            assetsData[assetAddress][currentEpoch + durationEpochs - 1 + i].backingToken.addPremiums(epochPremium);
         }
 
         assetData.optionToken.mint(msg.sender, amount);
@@ -127,7 +140,7 @@ contract StabilanCore is IStabilanCore, Ownable {
     function getOptionsPrice(address assetAddress, uint256 amount, uint256 durationEpochs, address payingToken)
         public
         view
-        returns (uint256 totalCost, uint256[] memory epochCosts)
+        returns (uint256 totalCost, uint256 totalEpochsBacking)
     {
         AssetConfig storage assetConfig = assetsConfig[assetAddress];
         AssetEpochData storage currEpochData = assetsData[assetAddress][currentEpoch];
@@ -135,7 +148,7 @@ contract StabilanCore is IStabilanCore, Ownable {
         uint256 collateralPrice = priceFeedAggregator.getLatestPrice(address(currEpochData.backingToken.underlying()));
         uint256 assetPrice = priceFeedAggregator.getLatestPrice(assetAddress);
 
-        epochCosts = new uint256[](durationEpochs);
+        // epochCosts = new uint256[](durationEpochs);
 
         for (uint256 i = 0; i < durationEpochs; i++) {
             uint256 _amount = amount;
@@ -146,11 +159,21 @@ contract StabilanCore is IStabilanCore, Ownable {
             uint256 util = reservedUSD.wadDiv(collateralUSD).wadDiv(assetConfig.collateralRatio);
             uint256 assetAmountCost = (2 * util).wadMul(assetConfig.expectedApy).wadMul(_amount) / 12;
 
-            epochCosts[i] = assetAmountCost.wadMul(assetPrice).wadDiv(collateralPrice);
-            totalCost += epochCosts[i];
+            // epochCosts[i] = assetAmountCost.wadMul(assetPrice).wadDiv(collateralPrice);
+            totalCost += assetAmountCost.wadMul(assetPrice).wadDiv(collateralPrice);
         }
+        
+        totalEpochsBacking = 0;
 
-        return (totalCost, epochCosts);
+        for(uint256 i = 0; i < MAX_EPOCH_DURATION - durationEpochs + 1; i++) {
+            totalEpochsBacking += assetsData[assetAddress][currentEpoch + durationEpochs - 1 + i].backingToken.totalSupply();
+        }
+        // epochPremiums = new uint256[](MAX_EPOCH_DURATION - durationEpochs + 1);
+        // for(uint256 i = 0; i < MAX_EPOCH_DURATION - durationEpochs + 1; i++) {
+        //     epochPremiums[i] = (assetsData[assetAddress][currentEpoch + durationEpochs - 1 + i].backingToken.totalSupply() * totalCost) / totalEpochsBacking;
+        // }
+
+        return (totalCost, totalEpochsBacking);
     }
 
     function getMaxOptionAmount(address assetAddress, uint256 durationEpochs) external view returns (uint256) {
@@ -158,7 +181,7 @@ contract StabilanCore is IStabilanCore, Ownable {
         AssetEpochData storage currEpochData = assetsData[assetAddress][currentEpoch];
 
         uint256 collateralPrice = priceFeedAggregator.getLatestPrice(address(currEpochData.backingToken.underlying()));
-        uint256 assetPrice = priceFeedAggregator.getLatestPrice(assetAddress);
+        // uint256 assetPrice = priceFeedAggregator.getLatestPrice(assetAddress);
 
         uint256 minAvailable = type(uint256).max;
         for (uint256 i = 0; i < durationEpochs; i++) {
@@ -182,27 +205,37 @@ contract StabilanCore is IStabilanCore, Ownable {
 
     function executeOptions(IOptionToken option, uint256 amount) external {
         address underlyingAsset = address(option.underlying());
-        uint256 underlyingAssetPrice = priceFeedAggregator.getLatestPrice(underlyingAsset);
+        
 
         AssetEpochData storage assetData = assetsData[underlyingAsset][currentEpoch];
 
-        if (assetData.strikePrice > underlyingAssetPrice) {
-            revert CannotExecute();
-        }
+        // uint256 underlyingAssetPrice = priceFeedAggregator.getLatestPrice(underlyingAsset);
+        // if (assetData.strikePrice > underlyingAssetPrice) {
+        //     revert CannotExecute();
+        // }
+
+        option.underlying().transferFrom(msg.sender, address(this), amount);
 
         address collateralAsset = address(assetData.backingToken.underlying());
         uint256 collateralAssetPrice = priceFeedAggregator.getLatestPrice(collateralAsset);
         uint256 collateralAmount = Math.mulDiv(amount, assetData.strikePrice, collateralAssetPrice);
 
-        for (uint256 i = currentEpoch; i < option.endEpoch(); i++) {
+        for (uint256 i = currentEpoch; i <= option.endEpoch(); i++) {
             assetsData[underlyingAsset][i].reservedAmount -= amount;
             assetsData[underlyingAsset][i].collateralAmount -= collateralAmount;
         }
 
-        //TODO: implement burn from because burnFrom will require allowance
-        //TODO: add safe ERC20 library
         option.burn(msg.sender, amount);
         IERC20(collateralAsset).transfer(msg.sender, collateralAmount);
+
+        uint256 totalBacking = 0;
+        for(uint256 i = option.endEpoch(); i < currentEpoch + MAX_EPOCH_DURATION; i++) {
+            totalBacking = assetsData[underlyingAsset][currentEpoch + i].backingToken.totalSupply();
+        }
+        for(uint256 i = option.endEpoch(); i < currentEpoch + MAX_EPOCH_DURATION; i++) {
+            uint256 executedOptions = (assetsData[underlyingAsset][currentEpoch + i].backingToken.totalSupply() * amount) / totalBacking;
+            assetsData[underlyingAsset][currentEpoch + i].backingToken.addExecutedOptions(executedOptions);
+        }
     }
 
     function backing(address assetAddress, uint256 amount, uint256 durationEpochs) external {
@@ -219,7 +252,19 @@ contract StabilanCore is IStabilanCore, Ownable {
         backingToken.mint(msg.sender, amount);
     }
 
-    function claimBackingRewards(address backingToken) external {}
+    function claimBackingRewards(IBackingToken backingToken) external {
+        if (currentEpoch <= backingToken.endEpoch()) {
+            revert BackingIsntOver();
+        }
+
+        uint256 rewards = backingToken.getClaimingRewardsAndUpdate(msg.sender);
+        backingToken.underlying().transfer(msg.sender, backingToken.balanceOf(msg.sender) + rewards);
+    }
+
+    function claimExectuedOptions(IBackingToken backingToken) external {
+        uint256 executedOptionsAmount = backingToken.getClaimingExecutedOptionsAndUpdate(msg.sender);
+        IERC20(backingToken.backedAsset()).transfer(msg.sender, executedOptionsAmount);
+    }
 
     function allStabilanTokens() external view returns (IOptionToken[] memory, IBackingToken[] memory) {
         return (allOptionTokens, allBackingTokens);

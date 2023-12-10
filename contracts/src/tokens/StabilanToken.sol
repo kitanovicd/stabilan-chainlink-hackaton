@@ -3,7 +3,7 @@ pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts/interfaces/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "./interfaces/IStabilanToken.sol";
+import "../interfaces/IStabilanToken.sol";
 
 contract StabilanToken is IStabilanToken, ERC20 {
     IERC20 public underlying;

@@ -6,6 +6,7 @@ import "./IOptionToken.sol";
 
 interface IStabilanCore {
     error CannotExecute();
+    error BackingIsntOver();
     error NotEnoughETHSent(uint256 msgValue, uint256 optionsPrice);
     error NotEnoughBacking(uint256 inEpochId, uint256 insuringAssetValue, uint256 totalAvailableCollateralUSD);
 
@@ -15,6 +16,7 @@ interface IStabilanCore {
         uint256 reservedAmount; // in insurance tokens
         uint256 activeUntilTimestamp;
         uint256 totalPremium;
+        uint256 collateralAfter;
         IOptionToken optionToken;
         IBackingToken backingToken;
     }
