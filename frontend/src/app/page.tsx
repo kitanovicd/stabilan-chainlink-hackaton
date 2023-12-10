@@ -28,10 +28,10 @@ const features = [
       "The premium paid by users is given in the collateral token and automatically staked to cover new insurances.",
   },
   {
-    title: "User Dashboard",
+    title: "DAO Governance",
     icon: Icons.logo,
     description:
-      "Manage your protection tokens and backing activities through our user-friendly dashboard. It gives you a real-time overview of your investments and their market performance.",
+      "Protocol is fully owned by the DAO, utilizing the STB_DAO tokens which can be obtained by backing assets. There is no other protocol owners, and DAO has the power to change asset parameters or to add new assets.",
   },
   {
     title: "Asset Agnostic",
