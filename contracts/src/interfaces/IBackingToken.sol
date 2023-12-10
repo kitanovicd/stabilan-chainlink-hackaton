@@ -15,4 +15,6 @@ interface IBackingToken is IStabilanToken {
     function getClaimingRewardsAndUpdate(address account) external returns(uint256);
 
     function getClaimingExecutedOptionsAndUpdate(address account) external returns(uint256);
+
+    function getRewardsAmount(address account) external view returns(uint256, uint256);
 }

@@ -58,7 +58,7 @@ contract BackingToken is IBackingToken, StabilanToken {
         return executedOptions;
     }
 
-    function getRewardsAmount(address account) external returns(uint256, uint256) {
+    function getRewardsAmount(address account) external view returns(uint256, uint256) {
         return (totalRewardsForAccount[account], totalExecutedOptionsForAccount[account]);
     }
 

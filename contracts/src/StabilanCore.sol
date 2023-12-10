@@ -29,12 +29,16 @@ contract StabilanCore is IStabilanCore, Ownable {
     IOptionToken[] public allOptionTokens;
     IBackingToken[] public allBackingTokens;
 
+    IDAOToken public daoToken;
+
     constructor(ITokenFactory _tokenFactory, IPriceFeedAggregator _priceFeedAggregator, address _owner)
         Ownable(_owner)
     {
         tokenFactory = _tokenFactory;
         priceFeedAggregator = _priceFeedAggregator;
         currentEpoch = 1;
+
+        tokenFactory.deployDAOToken("Stabilan DAO", "STB_DAO", address(this));
     }
 
     function setupAsset(
@@ -250,6 +254,10 @@ contract StabilanCore is IStabilanCore, Ownable {
 
         IBackingToken backingToken = assetsData[assetAddress][currentEpoch + durationEpochs - 1].backingToken;
         backingToken.mint(msg.sender, amount);
+
+        // DAO = amount * (1 + 0.2 * (duration - 1))
+        uint256 daoAmount = (amount * (1 ether + 0.2 ether * (durationEpochs - 1))) / 1e18;
+        daoToken.mint(msg.sender, daoAmount);
     }
 
     function claimBackingRewards(IBackingToken backingToken) external {
