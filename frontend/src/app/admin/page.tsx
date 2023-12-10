@@ -22,10 +22,9 @@ export default function Page() {
   return (
     <div className="flex flex-col gap-5">
       <FlexCol className="mb-12 gap-5">
-        <Typography type="h2">Admin</Typography>
+        <Typography type="h2">Dashboard</Typography>
         <Typography type="meta">
-          <strong>This is admin page </strong>
-          Execute hidden actions here!
+          <strong>This is dashboard page </strong>
         </Typography>
       </FlexCol>
       <Button

@@ -9,8 +9,10 @@ import { Toaster } from "react-hot-toast";
 import { WagmiConfig } from "wagmi";
 
 import { navigationBarConfig } from "../lib";
+import { Banner } from "../lib/components/banner/Banner";
 
 import NavBar from "./nav-bar/NavBar";
+import { BannerWrapper } from "./banner/BannerWrapper";
 
 import { wagmiConfig } from "lib/scaffold-lib/services/web3/wagmiConfig";
 import { appChains } from "lib/scaffold-lib/services/web3/wagmiConnectors";
@@ -35,6 +37,7 @@ export default function RootLayout({
       <body>
         <WagmiConfig config={wagmiConfig}>
           <RainbowKitProvider chains={appChains.chains} theme={lightTheme()}>
+            <BannerWrapper />
             <NavBar items={navigationBarConfig} />
             <Toaster />
             <div className="mt-20 md:mt-24 mx-[3%] md:mx-[5%] lg:mx-[7%]">

@@ -6,6 +6,10 @@ import { useAccount } from "wagmi";
 
 import { TokenType, formatUntilDate } from "../common";
 
+import { RewardsAmount } from "./RewardsAmount";
+import { ClaimRewardsAmount } from "./ClaimRewardsAmount";
+import { ExecuteOptions } from "./ExecuteOptions";
+
 import {
   Address0x,
   AvailableChains,
@@ -37,6 +41,7 @@ export const SecondTable = () => {
   const { address } = useAccount();
   const { targetNetwork: network } = useTargetNetwork();
   // DataProvider.getUserTokens(coreContractAddress, userAddress)
+
   const { data: userTokens } = useWingsContractRead({
     contractName: "DataProvider",
     functionName: "getUserTokens",
@@ -46,6 +51,7 @@ export const SecondTable = () => {
       address as Address0x,
     ],
   });
+
   console.log({ userTokens });
 
   const modalRef = useRef<GenericModalHandles>(null);
@@ -112,6 +118,15 @@ export const SecondTable = () => {
               <th scope="col" className="px-6 py-3">
                 #
               </th>
+              <th scope="col" className="px-6 py-3">
+                #
+              </th>
+              <th scope="col" className="px-6 py-3">
+                #
+              </th>
+              <th scope="col" className="px-6 py-3">
+                #
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -149,6 +164,22 @@ export const SecondTable = () => {
                       </td>
                       <td className="px-6 py-4">{date}</td>
                       <td className="px-6 py-4">
+                        <RewardsAmount
+                          contractAddress={userToken.backedAsset}
+                          userAddress={address as Address0x}
+                        />
+                      </td>
+                      <td className="px-6 py-4">
+                        <ClaimRewardsAmount
+                          contractAddress={userToken.backedAsset}
+                        />
+                      </td>
+                      <td className="px-6 py-4">
+                        <ExecuteOptions
+                          contractAddress={userToken.backedAsset}
+                        />
+                      </td>
+                      <td className="px-6 py-4">
                         {new Date(date) > new Date() ? (
                           <span></span>
                         ) : (
@@ -161,7 +192,7 @@ export const SecondTable = () => {
             ) : (
               <tr>
                 <td
-                  colSpan={4}
+                  colSpan={8}
                   className="table-cell justify-center items-center p-10"
                 >
                   <EmptyContent />
