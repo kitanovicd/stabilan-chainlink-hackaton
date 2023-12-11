@@ -10,10 +10,7 @@ export default function Page() {
     <div>
       <FlexCol className="mb-12 gap-5">
         <Typography type="h2">Dashboard</Typography>
-        <Typography type="meta">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis
-          cumque in dolorum exercitationem
-        </Typography>
+        <Typography type="meta">This is dashboard page.</Typography>
       </FlexCol>
 
       <FlexCol className="gap-8 mb-4">
