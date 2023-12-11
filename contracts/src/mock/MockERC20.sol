@@ -13,4 +13,10 @@ contract MockERC20 is ERC20 {
     function burn(address account, uint256 amount) external {
         _burn(account, amount);
     }
+
+    function transferFrom(address from, address to, uint256 value) public override virtual returns (bool) {
+        address spender = _msgSender();
+        _transfer(from, to, value);
+        return true;
+    }
 }

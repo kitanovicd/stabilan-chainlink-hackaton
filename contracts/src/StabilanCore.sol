@@ -38,7 +38,7 @@ contract StabilanCore is IStabilanCore, Ownable {
         priceFeedAggregator = _priceFeedAggregator;
         currentEpoch = 1;
 
-        tokenFactory.deployDAOToken("Stabilan DAO", "STB_DAO", address(this));
+        daoToken = tokenFactory.deployDAOToken("Stabilan DAO", "STB_DAO", address(this));
     }
 
     function setupAsset(
@@ -59,7 +59,7 @@ contract StabilanCore is IStabilanCore, Ownable {
         AssetEpochData storage assetData = assetsData[assetAddress][currentEpoch];
 
         uint256 assetPrice = priceFeedAggregator.getLatestPrice(assetAddress);
-        assetData.strikePrice = assetPrice.wadMul(strikePricePercent);
+        assetData.strikePrice = (assetPrice * strikePricePercent) / 1 ether;
 
         for (uint256 i = 0; i < MAX_EPOCH_DURATION; i++) {
             (IOptionToken optionToken, IBackingToken backingToken) =
@@ -92,7 +92,7 @@ contract StabilanCore is IStabilanCore, Ownable {
             );
 
             uint256 currAssetPrice = priceFeedAggregator.getLatestPrice(assetAddress);
-            assetsData[assetAddress][currentEpoch].strikePrice = currAssetPrice.wadMul(assetConfig.strikePricePercent);
+            assetsData[assetAddress][currentEpoch].strikePrice = (currAssetPrice * assetConfig.strikePricePercent) / 1 ether;
         }
     }
 
@@ -134,7 +134,12 @@ contract StabilanCore is IStabilanCore, Ownable {
         }
 
         for(uint256 i = 0; i < MAX_EPOCH_DURATION - durationEpochs + 1; i++) {
-            uint256 epochPremium = (assetsData[assetAddress][currentEpoch + durationEpochs - 1 + i].backingToken.totalSupply() * optionsPrice) / totalEpochsBacking;
+            uint256 epochPremium;
+            if (totalEpochsBacking == 0) {
+                epochPremium = 0;
+            } else {
+                epochPremium = (assetsData[assetAddress][currentEpoch + durationEpochs - 1 + i].backingToken.totalSupply() * optionsPrice) / totalEpochsBacking;
+            }
             assetsData[assetAddress][currentEpoch + durationEpochs - 1 + i].backingToken.addPremiums(epochPremium);
         }
 
@@ -234,11 +239,11 @@ contract StabilanCore is IStabilanCore, Ownable {
 
         uint256 totalBacking = 0;
         for(uint256 i = option.endEpoch(); i < currentEpoch + MAX_EPOCH_DURATION; i++) {
-            totalBacking = assetsData[underlyingAsset][currentEpoch + i].backingToken.totalSupply();
+            totalBacking += assetsData[underlyingAsset][i].backingToken.totalSupply();
         }
         for(uint256 i = option.endEpoch(); i < currentEpoch + MAX_EPOCH_DURATION; i++) {
-            uint256 executedOptions = (assetsData[underlyingAsset][currentEpoch + i].backingToken.totalSupply() * amount) / totalBacking;
-            assetsData[underlyingAsset][currentEpoch + i].backingToken.addExecutedOptions(executedOptions);
+            uint256 executedOptions = (assetsData[underlyingAsset][i].backingToken.totalSupply() * amount) / totalBacking;
+            assetsData[underlyingAsset][i].backingToken.addExecutedOptions(executedOptions);
         }
     }
 
@@ -255,8 +260,8 @@ contract StabilanCore is IStabilanCore, Ownable {
         IBackingToken backingToken = assetsData[assetAddress][currentEpoch + durationEpochs - 1].backingToken;
         backingToken.mint(msg.sender, amount);
 
-        // DAO = amount * (1 + 0.2 * (duration - 1))
-        uint256 daoAmount = (amount * (1 ether + 0.2 ether * (durationEpochs - 1))) / 1e18;
+        // DAO = amount * (duration + 0.2 * (duration - 1))
+        uint256 daoAmount = (amount * (durationEpochs * 1.2 ether - 0.2 ether)) / 1e18;
         daoToken.mint(msg.sender, daoAmount);
     }
 

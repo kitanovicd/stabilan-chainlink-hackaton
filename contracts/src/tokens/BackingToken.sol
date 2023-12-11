@@ -39,11 +39,15 @@ contract BackingToken is IBackingToken, StabilanToken {
     }
 
     function addPremiums(uint256 amount) external onlyCore {
-        totalPremiumsPerToken += (amount * 1e18) / totalSupply();
+        if (totalSupply() != 0) {
+            totalPremiumsPerToken += (amount * 1e18) / totalSupply();
+        }
     }
 
     function addExecutedOptions(uint256 amount) external onlyCore {
-        totalExecutedOptionsPerToken += (amount * 1e18) / totalSupply();
+        if (totalSupply() != 0) {
+            totalExecutedOptionsPerToken += (amount * 1e18) / totalSupply();
+        }
     }
 
     function getClaimingRewardsAndUpdate(address account) external onlyCore returns(uint256) {
