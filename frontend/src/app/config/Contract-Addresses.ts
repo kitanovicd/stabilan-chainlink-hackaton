@@ -35,7 +35,7 @@ export type ContractAddressesByChain = {
 export const contractAddressesByChain: ContractAddressesByChain = {
   baseGoerli: {
     PriceFeedAggregator: "0xe1377aC741aB879a7058e3971Ed5538Df25CEf39",
-    StabilanCore: "0x139CBc2F00a1b12194D34B9d6ed5dc95b6A8D398",
+    StabilanCore: "0x7B7FdE25de740606feB1054f943BEE3bb16d45ae",
     DataProvider: "0xc822545E5208333CCf0D0349392e8FaDb254E16c",
     USDC: "0x15c104772BB833010A96dDBDEea0a3B9981F9065",
     USDCPriceFeed: "0xf443fB60A51380fd1A6Eb69F8d7354743ad94ffa",
