@@ -50,13 +50,13 @@ contract Deploy is Script {
     TestpageHelper testpageHelper = TestpageHelper(0x58961cADDAc6c775916A5B6B54b51b4cDA2824e5);
     TokenFactory tokenFactory = TokenFactory(0xB622C438d523657670ADF27ed510CfCA5DDe8F04);
 
-    StabilanCore stabilanCore = StabilanCore(address(0));
+    StabilanCore stabilanCore = StabilanCore(0xF3bB2741249Dd0FC6Fc1945471da5Df56ad69d81);
 
     function run() public {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         address deployerAddress = vm.addr(deployerPrivateKey);
 
-        bool minDeploy = true;
+        bool minDeploy = false;
 
         console.log("Deployer address: ", deployerAddress);
         console.log("Deployer balance: ", deployerAddress.balance);
@@ -152,7 +152,7 @@ contract Deploy is Script {
 
         console.log("Price feeds setted");
 
-        stabilanCore.setupAsset(address(usdc), 0.8 ether, 0.97 ether, 0.1144 ether, address(weth));
+        // stabilanCore.setupAsset(address(usdc), 0.8 ether, 0.97 ether, 0.1144 ether, address(weth));
 
         if (!minDeploy) {
             stabilanCore.setupAsset(address(usdt), 0.8 ether, 0.97 ether, 0.1031 ether, address(weth));
@@ -177,6 +177,10 @@ contract Deploy is Script {
           _log("WETH", address(weth));
           _log("WETHPriceFeed", address(wethPriceFeed));
           _log("TestpageHelper", address(testpageHelper));
+          _log("USDT", address(usdt));
+          _log("USDTPriceFeed", address(usdtPriceFeed));
+          _log("WBTC", address(wbtc));
+          _log("WBTCPriceFeed", address(wbtcPriceFeed));
           // TOOD: add ustd/wbtc
         console.log("}");
     }
