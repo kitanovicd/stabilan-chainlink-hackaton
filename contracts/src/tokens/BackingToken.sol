@@ -51,19 +51,24 @@ contract BackingToken is IBackingToken, StabilanToken {
     }
 
     function getClaimingRewardsAndUpdate(address account) external onlyCore returns(uint256) {
+        _updateAccount(account);
         uint256 rewards = totalRewardsForAccount[account];
         totalRewardsForAccount[account] = 0;
         return rewards;
     }
 
     function getClaimingExecutedOptionsAndUpdate(address account) external onlyCore returns(uint256) {
+        _updateAccount(account);
         uint256 executedOptions = totalExecutedOptionsForAccount[account];
         totalExecutedOptionsForAccount[account] = 0;
         return executedOptions;
     }
 
     function getRewardsAmount(address account) external view returns(uint256, uint256) {
-        return (totalRewardsForAccount[account], totalExecutedOptionsForAccount[account]);
+        return (
+            totalRewardsForAccount[account] + balanceOf(account) * (totalPremiumsPerToken - lastPremium[account]), 
+            totalExecutedOptionsForAccount[account] + balanceOf(account) * (totalExecutedOptionsPerToken - lastExecutedOptions[account])
+        );
     }
 
     function _updateAccount(address account) internal {
