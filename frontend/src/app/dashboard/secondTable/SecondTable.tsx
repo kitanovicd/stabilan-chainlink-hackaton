@@ -124,11 +124,15 @@ export const SecondTable = () => {
               <th scope="col" className="px-6 py-3">
                 Rewards amount
               </th>
-              <th scope="col" className="px-6 py-3"></th>
+              <th scope="col" className="px-6 py-3">
+                #
+              </th>
               <th scope="col" className="px-6 py-3">
                 Assets amount
               </th>
-              <th scope="col" className="px-6 py-3"></th>
+              <th scope="col" className="px-6 py-3">
+                #
+              </th>
               <th scope="col" className="px-6 py-3"></th>
             </tr>
           </thead>
