@@ -121,7 +121,7 @@ export const ExecuteOptionModal: React.FC<{
   );
 
   // Execute option
-  if ((currentEpoch || 0) >= (endEpoch || 0)) return <span>Expired</span>;
+  if ((currentEpoch || 0) > (endEpoch || 0)) return <span>Expired</span>;
 
   return (
     <GenericModal
