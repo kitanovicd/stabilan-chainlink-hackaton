@@ -32,7 +32,7 @@ export const BannerWrapper = () => {
           href={RouterSettings.admin}
           className="px-5 py-2 me-2 text-xs font-medium text-white bg-success rounded-3xl hover:bg-success-hover transition-colors duration-500"
         >
-          Go To Test Page
+          Go To Admin Page
         </Link>
       }
     />
