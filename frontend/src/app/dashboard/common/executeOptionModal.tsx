@@ -23,7 +23,8 @@ interface FormData {
 
 export const ExecuteOptionModal: React.FC<{
   stabilanTokenAddress: Address0x;
-}> = ({ stabilanTokenAddress }) => {
+  endEpoch: bigint | undefined;
+}> = ({ stabilanTokenAddress, endEpoch }) => {
   const [isApproved, setApproved] = useState(false);
 
   const { writeAsync: executeOptionsAsync, isLoading } = useWingsContractWrite({
@@ -81,6 +82,11 @@ export const ExecuteOptionModal: React.FC<{
     });
   };
 
+  const { data: currentEpoch } = useWingsContractRead({
+    contractName: "StabilanCore",
+    functionName: "currentEpoch",
+  });
+
   const modalContent = (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
       <FlexCol className="gap-8">
@@ -113,6 +119,8 @@ export const ExecuteOptionModal: React.FC<{
       </FlexCol>
     </MyFormProvider>
   );
+
+  if ((currentEpoch || 0) < (endEpoch || 0)) return <span>Expired</span>;
 
   return (
     <GenericModal

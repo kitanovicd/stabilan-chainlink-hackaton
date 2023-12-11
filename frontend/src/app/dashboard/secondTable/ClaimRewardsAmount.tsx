@@ -7,19 +7,12 @@ import { useWingsContractRead } from "../../../lib/client/hooks/useWingsContract
 
 export const ClaimRewardsAmount: React.FC<{
   contractAddress: Address0x;
-}> = ({ contractAddress }) => {
+  endEpoch: bigint | undefined;
+}> = ({ contractAddress, endEpoch }) => {
   //(kada je stabilanCore.currentEpoch() > backintToken.endEpoch())
   const { data: currentEpoch } = useWingsContractRead({
     contractName: "StabilanCore",
     functionName: "currentEpoch",
-  });
-
-  const { data: endEpoch } = useWingsContractRead({
-    contractName: "BackingToken",
-    functionName: "endEpoch",
-    overrideContractAddress: {
-      address: contractAddress,
-    },
   });
 
   // StabilanCore.claimBackingRewards(backingTokenAddress)
@@ -29,9 +22,11 @@ export const ClaimRewardsAmount: React.FC<{
     args: [undefined],
   });
 
+  if ((currentEpoch || 0) >= (endEpoch || 0)) return null;
+
   return (
     <Button
-      disabled={(currentEpoch || 0) <= (endEpoch || 0) || isLoading}
+      disabled={isLoading}
       onClick={async () => {
         await claimAsync({
           args: [contractAddress],

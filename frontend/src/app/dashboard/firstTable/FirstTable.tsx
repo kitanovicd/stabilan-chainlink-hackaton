@@ -38,8 +38,6 @@ export const FirstTable = () => {
     ],
   });
 
-  const { currentTime } = useFetchBlockTime();
-
   return (
     <div className="relative overflow-x-auto">
       <FlexCol className="gap-8">
@@ -71,6 +69,7 @@ export const FirstTable = () => {
                     userToken.undelyingAssetAddress,
                     network.modifiedName
                   );
+                  console.log({ endEpoch: userToken.endEpoch });
                   const date = formatUntilDate(Number(userToken.endEpoch));
                   return (
                     <tr
@@ -106,17 +105,10 @@ export const FirstTable = () => {
                       </td>
                       <td className="px-6 py-4">{date}</td>
                       <td className="px-6 py-4">
-                        {currentTime == null ||
-                        date == null ||
-                        new Date(date) < currentTime ? (
-                          <span>{currentTime ? "Expired" : "Loading.."}</span>
-                        ) : (
-                          <ExecuteOptionModal
-                            stabilanTokenAddress={
-                              userToken.stabilanTokenAddress
-                            }
-                          />
-                        )}
+                        <ExecuteOptionModal
+                          stabilanTokenAddress={userToken.stabilanTokenAddress}
+                          endEpoch={userToken.endEpoch}
+                        />
                       </td>
                     </tr>
                   );

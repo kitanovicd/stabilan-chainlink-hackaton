@@ -1,3 +1,5 @@
+import { addMonths, format, lastDayOfMonth } from "date-fns";
+
 export interface GetDateAsLastDayOfTheMonthOptions {
   /**
    * The number of months to add to the current date.
@@ -27,7 +29,10 @@ export const getDateAsLastDayOfTheMonth = ({
 }: GetDateAsLastDayOfTheMonthOptions): Date | undefined => {
   if (!dateFrom) return undefined;
   const date = new Date(dateFrom);
-  date.setMonth(date.getMonth() + numberOfMonths - 1); // Subtracting 1 to adjust to the same month
-  date.setMonth(date.getMonth() + 1, 0); // Sets the date to the last day of the month
-  return date;
+  const addedMonths = addMonths(date, numberOfMonths);
+
+  return lastDayOfMonth(addedMonths);
 };
+
+// date.setMonth(date.getMonth() + numberOfMonths - 1); // Subtracting 1 to adjust to the same month
+// date.setMonth(date.getMonth() + 1, 0); // Sets the date to the last day of the month

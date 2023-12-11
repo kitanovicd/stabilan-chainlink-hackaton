@@ -353,7 +353,7 @@ export default function Page() {
                   </FlexRow>
                   <Typography type="body-bold" className="text-info">
                     {getDateAsLastDayOfTheMonth({
-                      numberOfMonths: months,
+                      numberOfMonths: months - 1,
                       dateFrom: currentTime,
                     })?.toDateString()}
                   </Typography>

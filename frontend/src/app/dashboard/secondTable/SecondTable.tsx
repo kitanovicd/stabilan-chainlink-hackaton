@@ -177,31 +177,26 @@ export const SecondTable = () => {
                       <td className="px-6 py-4">{date}</td>
                       <td className="px-6 py-4">
                         <RewardsAmount
-                          contractAddress={userToken.backedAsset}
+                          contractAddress={userToken.stabilanTokenAddress}
                           userAddress={address as Address0x}
                         />
                       </td>
                       {/* todo  */}
                       <td className="px-6 py-4">
-                        {currentTime == null ||
-                        date == null ||
-                        new Date(date) < currentTime ? (
-                          <span></span>
-                        ) : (
-                          <ClaimRewardsAmount
-                            contractAddress={userToken.backedAsset}
-                          />
-                        )}
+                        <ClaimRewardsAmount
+                          contractAddress={userToken.stabilanTokenAddress}
+                          endEpoch={userToken.endEpoch}
+                        />
                       </td>
                       <td className="px-6 py-4">
                         <RewardsAmount2
-                          contractAddress={userToken.backedAsset}
+                          contractAddress={userToken.stabilanTokenAddress}
                           userAddress={address as Address0x}
                         />
                       </td>
                       <td className="px-6 py-4">
                         <ExecuteOptions
-                          contractAddress={userToken.backedAsset}
+                          contractAddress={userToken.stabilanTokenAddress}
                         />
                       </td>
                     </tr>
