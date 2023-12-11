@@ -5,7 +5,7 @@ import { etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 
 import { Address0x, contractAddressesByChain } from "app/config/Contract-Addresses";
-import { getAddressByTokenAndNetwork, tokens } from "app/config/tokens";
+import { getAddressByTokenAndNetwork, tokens, allTokens} from "app/config/tokens";
 import { Button, Card, FlexCol, Icon, Icons, InputField, Typography } from "lib";
 import { useWingsContractWrite } from "lib/client/hooks/useWingsContractWrite";
 import { useTargetNetwork } from "lib/client/hooks/useTargetNetwork";
@@ -24,19 +24,6 @@ export const Minterc20 = () => {
   const [selectedToken, setSelectedToken] = useState<IToken | undefined>(
     undefined
   );
-
-  let allTokens = tokens;
-  allTokens.push(
-    {
-      name: "WETH",
-      icon: Icons.tokenWETH,
-      avalancheFuji: { address: contractAddressesByChain.avalancheFuji.WETH },
-      polygonZkevmTestnet: {
-        address: contractAddressesByChain.polygonZkevmTestnet.WETH,
-      },
-      baseGoerli: { address: contractAddressesByChain.baseGoerli.WETH },
-    }
-  )
 
   const selectToken = (tokenName: string) => {
     const token = allTokens.find((t) => t.name === tokenName);

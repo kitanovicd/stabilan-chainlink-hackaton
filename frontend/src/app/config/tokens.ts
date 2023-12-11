@@ -56,6 +56,63 @@ export const tokens = [
   },
 ];
 
+export const allTokens = [
+  {
+    name: "USDC",
+    icon: Icons.tokenUsdc,
+    avalancheFuji: { address: contractAddressesByChain.avalancheFuji.USDC },
+    polygonZkevmTestnet: {
+      address: contractAddressesByChain.polygonZkevmTestnet.USDC,
+    },
+    baseGoerli: { address: contractAddressesByChain.baseGoerli.USDC },
+  },
+  {
+    name: "USDT",
+    icon: Icons.tokenUsdt,
+    avalancheFuji: { address: contractAddressesByChain.avalancheFuji.USDT },
+    baseGoerli: { address: contractAddressesByChain.baseGoerli.USDT },
+    polygonZkevmTestnet: {
+      address: contractAddressesByChain.polygonZkevmTestnet.USDT,
+    },
+  },
+  {
+    name: "Gho",
+    icon: Icons.tokenGho,
+    avalancheFuji: { address: contractAddressesByChain.avalancheFuji.GHO },
+    baseGoerli: { address: contractAddressesByChain.baseGoerli.GHO },
+    polygonZkevmTestnet: {
+      address: contractAddressesByChain.polygonZkevmTestnet.GHO,
+    },
+  },
+  {
+    name: "WBTC",
+    icon: Icons.tokenWBTC,
+    avalancheFuji: { address: contractAddressesByChain.avalancheFuji.WBTC },
+    baseGoerli: { address: contractAddressesByChain.baseGoerli.WBTC },
+    polygonZkevmTestnet: {
+      address: contractAddressesByChain.polygonZkevmTestnet.WBTC,
+    },
+  },
+  {
+    name: "INSRD",
+    icon: Icons.tokenINSRD,
+    avalancheFuji: { address: contractAddressesByChain.avalancheFuji.INSRD },
+    baseGoerli: { address: contractAddressesByChain.baseGoerli.INSRD },
+    polygonZkevmTestnet: {
+      address: contractAddressesByChain.polygonZkevmTestnet.INSRD,
+    },
+  },
+  {
+    name: "WETH",
+    icon: Icons.tokenWETH,
+    avalancheFuji: { address: contractAddressesByChain.avalancheFuji.WETH },
+    polygonZkevmTestnet: {
+      address: contractAddressesByChain.polygonZkevmTestnet.WETH,
+    },
+    baseGoerli: { address: contractAddressesByChain.baseGoerli.WETH },
+  }
+];
+
 /**
  * Retrieves the contract address for a given token and network.
  *
