@@ -23,7 +23,7 @@ export const ExecuteOptions: React.FC<{
         });
       }}
     >
-      Execute Options
+      Claim Assets
     </Button>
   );
 };
