@@ -68,7 +68,7 @@ contract Deploy is Script {
         vm.startBroadcast(deployerPrivateKey);
 
         if (address(tokenFactory) == address(0)) {
-            TokenFactory tokenFactory = new TokenFactory();
+            tokenFactory = new TokenFactory();
             console.log("TokenFactory address: ", address(tokenFactory));
         }
 
