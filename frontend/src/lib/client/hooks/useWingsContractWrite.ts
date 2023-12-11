@@ -41,6 +41,7 @@ export const useWingsContractWrite = <
   const configuredNetwork = targetNetwork;
 
   const wagmiContractWrite = useContractWrite({
+    chainId: chain?.id,
     address: deployedContractData?.address,
     abi: deployedContractData?.abi as Abi,
     functionName: functionName as any,

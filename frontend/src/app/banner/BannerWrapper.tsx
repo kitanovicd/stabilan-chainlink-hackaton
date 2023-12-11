@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { addMonths } from "date-fns";
+import { addMonths, format } from "date-fns";
 
 import { Banner } from "../../lib/components/banner/Banner";
 import { RouterSettings } from "../../lib";
@@ -17,12 +17,12 @@ export const BannerWrapper = () => {
   });
 
   const currentTime = currentEpoch
-    ? addMonths(startdAPPDate, Number(currentEpoch))
+    ? format(addMonths(startdAPPDate, Number(currentEpoch)), "MMMM, yyyy")
     : isFetched
     ? "Unable to load"
     : "Loading...";
 
-  if (IS_DEV_MODE) return null;
+  // if (IS_DEV_MODE) return null;
 
   return (
     <Banner

@@ -10,6 +10,7 @@ import {
 } from "@rainbow-me/rainbowkit/wallets";
 import { configureChains } from "wagmi";
 import * as chains from "wagmi/chains";
+import { publicProvider } from "wagmi/providers/public";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 import scaffoldConfig from "../../../../../scaffold.config";
@@ -27,24 +28,14 @@ const { onlyLocalBurnerWallet } = scaffoldConfig;
 // We always want to have mainnet enabled (ENS resolution, ETH price, etc). But only once.
 const enabledChains = [...scaffoldConfig.targetNetworks];
 
-export const appChains = configureChains(
-  enabledChains,
-  [
-    jsonRpcProvider({
-      rpc: (_chain) => ({
-        http: process.env.NEXT_PUBLIC_RPC_URL || "",
-      }),
-    }),
-  ],
-  {
-    stallTimeout: 3_000,
-    ...(configuredNetwork.id !== chains.hardhat.id
-      ? {
-          pollingInterval: scaffoldConfig.pollingInterval,
-        }
-      : {}),
-  }
-);
+export const appChains = configureChains(enabledChains, [publicProvider()], {
+  stallTimeout: 3_000,
+  ...(configuredNetwork.id !== chains.hardhat.id
+    ? {
+        pollingInterval: scaffoldConfig.pollingInterval,
+      }
+    : {}),
+});
 
 const walletsOptions = {
   chains: appChains.chains,

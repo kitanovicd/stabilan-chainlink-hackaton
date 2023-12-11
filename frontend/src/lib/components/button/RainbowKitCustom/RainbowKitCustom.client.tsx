@@ -18,6 +18,7 @@ export const RainbowKitCustom = () => {
     contractName: "StabilanCore",
     functionName: "daoToken",
   });
+  console.log({ daoToken });
 
   const { data: daoTokenBalance } = useWingsContractRead({
     contractName: "MockERC20",
