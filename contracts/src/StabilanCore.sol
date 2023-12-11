@@ -271,12 +271,24 @@ contract StabilanCore is IStabilanCore, Ownable {
         }
 
         uint256 rewards = backingToken.getClaimingRewardsAndUpdate(msg.sender);
-        backingToken.underlying().transfer(msg.sender, backingToken.balanceOf(msg.sender) + rewards);
+
+        backingToken.underlying().transfer(
+            msg.sender, 
+            Math.min(
+                backingToken.balanceOf(msg.sender) + rewards, 
+                backingToken.underlying().balanceOf(address(this))
+            )
+        );
     }
 
     function claimExectuedOptions(IBackingToken backingToken) external {
         uint256 executedOptionsAmount = backingToken.getClaimingExecutedOptionsAndUpdate(msg.sender);
-        IERC20(backingToken.backedAsset()).transfer(msg.sender, executedOptionsAmount);
+        IERC20(backingToken.backedAsset()).transfer(msg.sender, 
+            Math.min(
+                executedOptionsAmount,
+                IERC20(backingToken.backedAsset()).balanceOf(address(this))
+            )
+        );
     }
 
     function allStabilanTokens() external view returns (IOptionToken[] memory, IBackingToken[] memory) {
