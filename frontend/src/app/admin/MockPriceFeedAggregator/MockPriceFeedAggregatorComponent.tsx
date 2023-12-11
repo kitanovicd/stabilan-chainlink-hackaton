@@ -54,7 +54,7 @@ export const MockPriceFeedAggregatorComponent = () => {
     const priceFeedMap: { [key in AvailableTokens]?: Address0x } = {
       USDC: PriceFeedAdresses.USDCPriceFeed,
       USDT: PriceFeedAdresses.USDTPriceFeed,
-      wBTC: PriceFeedAdresses.wBTCPriceFeed,
+      WBTC: PriceFeedAdresses.wBTCPriceFeed,
       INSRD: PriceFeedAdresses.INSRDPriceFeed,
       //gho nema pricefeedaggregator?
       Gho: PriceFeedAdresses.PriceFeedAggregator,

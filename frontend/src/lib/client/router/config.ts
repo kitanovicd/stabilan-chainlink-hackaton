@@ -1,5 +1,9 @@
 import { SidebarItem } from "../../types";
 
+export const RouterSettings = {
+  admin: "/admin",
+};
+
 export const navigationBarConfig: SidebarItem[] = [
   {
     title: "Insurance",

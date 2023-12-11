@@ -1,6 +1,9 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { etherUnits, parseUnits } from "viem";
+
+import { useWingsContractRead } from "../../../lib/client/hooks/useWingsContractRead";
+import { notification } from "../../../lib/scaffold-lib/utils/scaffold-eth";
 
 import { Address0x } from "app/config/Contract-Addresses";
 import {
@@ -21,11 +24,33 @@ interface FormData {
 export const ExecuteOptionModal: React.FC<{
   stabilanTokenAddress: Address0x;
 }> = ({ stabilanTokenAddress }) => {
-  const { writeAsync: executeOptionsAsync } = useWingsContractWrite({
+  const [isApproved, setApproved] = useState(false);
+
+  const { writeAsync: executeOptionsAsync, isLoading } = useWingsContractWrite({
     contractName: "StabilanCore",
     functionName: "executeOptions",
     args: [undefined, undefined],
   });
+  // optionsToken.underlying()
+
+  const { data: optionsToken } = useWingsContractRead({
+    contractName: "OptionToken",
+    functionName: "underlying",
+    overrideContractAddress: {
+      address: stabilanTokenAddress,
+    },
+  });
+
+  //IERC20(optionsToken.underlying()).approve(StabilanCoreAddress, amount)
+  const { writeAsync: approveAsync, isLoading: isApproving } =
+    useWingsContractWrite({
+      contractName: "MockERC20",
+      functionName: "approve",
+      overrideContractAddress: {
+        address: optionsToken,
+      },
+      args: [undefined, undefined],
+    });
 
   const modalRef = useRef<GenericModalHandles>(null);
   const methods = useForm<FormData>({
@@ -36,11 +61,23 @@ export const ExecuteOptionModal: React.FC<{
   const { handleSubmit, reset, watch } = methods;
 
   const onSubmitAsync = async (data: FormData) => {
+    const value = parseUnits(String(data.amount), etherUnits.wei);
+    if (!isApproved) {
+      await approveAsync({
+        args: [stabilanTokenAddress, value],
+        onSuccess: () => {
+          notification.success("Success");
+          setApproved(true);
+        },
+      });
+      return;
+    }
     await executeOptionsAsync({
-      args: [
-        stabilanTokenAddress,
-        parseUnits(String(data.amount), etherUnits.wei),
-      ],
+      args: [stabilanTokenAddress, value],
+      onSuccess: () => {
+        notification.success("Success");
+        setApproved(false);
+      },
     });
   };
 
@@ -68,8 +105,9 @@ export const ExecuteOptionModal: React.FC<{
             color="primary"
             className="flex-1 mt-4"
             type="submit"
+            disabled={isApproving || isLoading}
           >
-            Execute option
+            {isApproved ? "Execute option" : "Approve"}
           </Button>
         </FlexCol>
       </FlexCol>

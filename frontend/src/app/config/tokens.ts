@@ -6,7 +6,7 @@ import {
 
 import { Icons } from "lib";
 
-export type AvailableTokens = "USDC" | "USDT" | "Gho" | "wBTC" | "INSRD";
+export type AvailableTokens = "USDC" | "USDT" | "Gho" | "WBTC" | "INSRD";
 
 export const tokens = [
   {
@@ -39,10 +39,10 @@ export const tokens = [
   {
     name: "WBTC",
     icon: Icons.tokenWBTC,
-    avalancheFuji: { address: contractAddressesByChain.avalancheFuji.wBTC },
+    avalancheFuji: { address: contractAddressesByChain.avalancheFuji.WBTC },
     baseGoerli: { address: contractAddressesByChain.baseGoerli.WBTC },
     polygonZkevmTestnet: {
-      address: contractAddressesByChain.polygonZkevmTestnet.wBTC,
+      address: contractAddressesByChain.polygonZkevmTestnet.WBTC,
     },
   },
   {

@@ -3,8 +3,15 @@
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useAccount } from "wagmi";
+import Link from "next/link";
 
 import { TokenType, formatUntilDate } from "../common";
+import { buildTokenUrl } from "../../common/DisplayAddress";
+
+import { RewardsAmount } from "./RewardsAmount";
+import { ClaimRewardsAmount } from "./ClaimRewardsAmount";
+import { ExecuteOptions } from "./ExecuteOptions";
+import { RewardsAmount2 } from "./RewardsAmount2";
 
 import {
   Address0x,
@@ -37,6 +44,7 @@ export const SecondTable = () => {
   const { address } = useAccount();
   const { targetNetwork: network } = useTargetNetwork();
   // DataProvider.getUserTokens(coreContractAddress, userAddress)
+
   const { data: userTokens } = useWingsContractRead({
     contractName: "DataProvider",
     functionName: "getUserTokens",
@@ -46,6 +54,7 @@ export const SecondTable = () => {
       address as Address0x,
     ],
   });
+
   console.log({ userTokens });
 
   const modalRef = useRef<GenericModalHandles>(null);
@@ -110,8 +119,14 @@ export const SecondTable = () => {
                 Locked Until
               </th>
               <th scope="col" className="px-6 py-3">
-                #
+                Rewards amount
               </th>
+              <th scope="col" className="px-6 py-3"></th>
+              <th scope="col" className="px-6 py-3">
+                Assets amount
+              </th>
+              <th scope="col" className="px-6 py-3"></th>
+              <th scope="col" className="px-6 py-3"></th>
             </tr>
           </thead>
           <tbody>
@@ -130,14 +145,23 @@ export const SecondTable = () => {
                       className="bg-white dark:bg-gray-800 border-b border-dashed border-[rgba(145,158,171,0.2)]"
                     >
                       <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center">
-                        <ImageWrapper
-                          src={tokenInfo?.icon || ""}
-                          alt={tokenInfo?.name || "Unknown"}
-                          width="30"
-                          height="30"
-                          className="mr-2 rounded-full"
-                        />
-                        {tokenInfo?.name || "Unknown Token"}
+                        <Link
+                          href={
+                            `${network.blockExplorers?.default.url}/token/${userToken.stabilanTokenAddress}` ||
+                            "#"
+                          }
+                          target="_blank"
+                          className="flex flex-row gap-2 items-center"
+                        >
+                          <ImageWrapper
+                            src={tokenInfo?.icon || ""}
+                            alt={tokenInfo?.name || "Unknown"}
+                            width="30"
+                            height="30"
+                            className="mr-2 rounded-full"
+                          />
+                          {tokenInfo?.name || "Unknown Token"}
+                        </Link>
                       </td>
                       <td className="px-6 py-4">
                         {displayTokens(userToken.balance, {
@@ -148,6 +172,30 @@ export const SecondTable = () => {
                         })}
                       </td>
                       <td className="px-6 py-4">{date}</td>
+                      <td className="px-6 py-4">
+                        <RewardsAmount
+                          contractAddress={userToken.backedAsset}
+                          userAddress={address as Address0x}
+                        />
+                      </td>
+                      <td className="px-6 py-4">
+                        <ClaimRewardsAmount
+                          contractAddress={userToken.backedAsset}
+                        />
+                      </td>
+
+                      <td className="px-6 py-4">
+                        <RewardsAmount2
+                          contractAddress={userToken.backedAsset}
+                          userAddress={address as Address0x}
+                        />
+                      </td>
+
+                      <td className="px-6 py-4">
+                        <ExecuteOptions
+                          contractAddress={userToken.backedAsset}
+                        />
+                      </td>
                       <td className="px-6 py-4">
                         {new Date(date) > new Date() ? (
                           <span></span>
@@ -161,7 +209,7 @@ export const SecondTable = () => {
             ) : (
               <tr>
                 <td
-                  colSpan={4}
+                  colSpan={8}
                   className="table-cell justify-center items-center p-10"
                 >
                   <EmptyContent />

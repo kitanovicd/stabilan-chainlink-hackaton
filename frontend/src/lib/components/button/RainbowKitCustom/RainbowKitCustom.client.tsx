@@ -2,11 +2,35 @@
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
+import { useAccount } from "wagmi";
 
 import { Button } from "../..";
 import { useAutoConnect } from "../../../client/hooks/useAutoConnect";
+import { useWingsContractRead } from "../../../client/hooks/useWingsContractRead";
+import { Address0x } from "../../../../app/config/Contract-Addresses";
+import { displayTokens } from "../../../utils/tokens/display-tokens";
+
 export const RainbowKitCustom = () => {
   useAutoConnect();
+  const { address } = useAccount();
+
+  const { data: daoToken } = useWingsContractRead({
+    contractName: "StabilanCore",
+    functionName: "daoToken",
+  });
+  console.log({ daoToken });
+
+  const { data: daoTokenBalance } = useWingsContractRead({
+    contractName: "MockERC20",
+    functionName: "balanceOf",
+    enabled: !!daoToken,
+    overrideContractAddress: {
+      address: daoToken,
+    },
+    args: [address as Address0x],
+  });
+
+  console.log({ daoTokenBalance });
 
   return (
     <ConnectButton.Custom>
@@ -85,7 +109,10 @@ export const RainbowKitCustom = () => {
                     {chain.name}
                   </button>
                   <Button onClick={openAccountModal} size="big" color="success">
-                    {/* {account.displayName} */}
+                    {`(${displayTokens(daoTokenBalance, {
+                      tokenLabel: "DAO",
+                    })})`}
+
                     {account.displayBalance
                       ? ` (${account.displayBalance})`
                       : ""}
