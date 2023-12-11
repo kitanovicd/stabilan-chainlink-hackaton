@@ -25,6 +25,7 @@ export interface ContractAddresses {
   GHOPriceFeed: Address0x;
   BackingToken: Address0x;
   TestpageHelper: Address0x;
+  OptionToken: Address0x;
 }
 
 export type ContractAddressesByChain = {
@@ -33,14 +34,15 @@ export type ContractAddressesByChain = {
 
 export const contractAddressesByChain: ContractAddressesByChain = {
   baseGoerli: {
+    PriceFeedAggregator: "0xe1377aC741aB879a7058e3971Ed5538Df25CEf39",
+    StabilanCore: "0x139CBc2F00a1b12194D34B9d6ed5dc95b6A8D398",
+    DataProvider: "0xc822545E5208333CCf0D0349392e8FaDb254E16c",
+    USDC: "0x15c104772BB833010A96dDBDEea0a3B9981F9065",
+    USDCPriceFeed: "0xf443fB60A51380fd1A6Eb69F8d7354743ad94ffa",
+    WETH: "0xC89d4eaCb839f8C731C84d1f765523D08CD0d02e",
+    WETHPriceFeed: "0xd42E6262029df1CC35a449302a2afA626d5de97c",
+    OptionToken: "0x58961cADDAc6c775916A5B6B54b51b4cDA2824e5",
     TestpageHelper: "0x58961cADDAc6c775916A5B6B54b51b4cDA2824e5",
-    PriceFeedAggregator: "0xb93A89dD8d21E3483F9a2fEAe34D34B7a19e38Ff",
-    StabilanCore: "0x485a26228a162054a35c6418A32Ec4364Ce20Bdd",
-    DataProvider: "0xa21d182889e0BdF0357A5956FEfD9B8F537b6dF5",
-    USDC: "0xC3e74826B4eBC21e0327e1D3b32b2851bcc33c76",
-    USDCPriceFeed: "0x1E889CdC8faB43f4e5352761335B9Bf7a452e1BF",
-    WETH: "0x1785fac1a9670b81593d4CF7C5412C5DD0a7E342",
-    WETHPriceFeed: "0xAa07cA2107c34CAB45d1115b147810b10Dd143A9",
     TokenFactory: "0x48AC85A71Cb5E1384A365fFf3D5f717B4eD411d0",
     INSRD: "0xa61c1F4f1d550D1A25107F4241714bc0823Bf05c",
     INSRDPriceFeed: "0x03CdF0973CE7A62d097651F16F4a27764f1491fc",
@@ -54,6 +56,7 @@ export const contractAddressesByChain: ContractAddressesByChain = {
     BackingToken: "0x33D572F7Dc6FA6dEe50C69E94821501481803560",
   },
   polygonZkevmTestnet: {
+    OptionToken: "0x58961cADDAc6c775916A5B6B54b51b4cDA2824e5",
     TestpageHelper: "0x58961cADDAc6c775916A5B6B54b51b4cDA2824e5",
     TokenFactory: "0x48AC85A71Cb5E1384A365fFf3D5f717B4eD411d0",
     PriceFeedAggregator: "0xA43D0B09A636DffB998d824b62117b83523289e6",
@@ -74,8 +77,8 @@ export const contractAddressesByChain: ContractAddressesByChain = {
     GHOPriceFeed: "0x33D572F7Dc6FA6dEe50C69E94821501481803560",
     BackingToken: "0x33D572F7Dc6FA6dEe50C69E94821501481803560",
   },
-  //todo
   avalancheFuji: {
+    OptionToken: "0x58961cADDAc6c775916A5B6B54b51b4cDA2824e5",
     TestpageHelper: "0x58961cADDAc6c775916A5B6B54b51b4cDA2824e5",
     TokenFactory: "0x48AC85A71Cb5E1384A365fFf3D5f717B4eD411d0",
     PriceFeedAggregator: "0xA43D0B09A636DffB998d824b62117b83523289e6",

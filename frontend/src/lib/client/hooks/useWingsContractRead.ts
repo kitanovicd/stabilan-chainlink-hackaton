@@ -40,7 +40,6 @@ export const useWingsContractRead = <
     overrideContractAddress?.address
   );
 
-  console.log({ tnid: targetNetwork.id });
   return useContractRead({
     chainId: targetNetwork.id,
     functionName,

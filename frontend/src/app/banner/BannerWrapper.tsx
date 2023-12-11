@@ -8,7 +8,6 @@ import { Banner } from "../../lib/components/banner/Banner";
 import { RouterSettings } from "../../lib";
 import { useWingsContractRead } from "../../lib/client/hooks/useWingsContractRead";
 import { startdAPPDate } from "../config/date";
-import { IS_DEV_MODE } from "../../lib/utils/env";
 
 export const BannerWrapper = () => {
   const { data: currentEpoch, isFetched } = useWingsContractRead({
