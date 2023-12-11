@@ -1,9 +1,11 @@
 "use client";
 
 import { useAccount } from "wagmi";
+import Link from "next/link";
 
 import { TokenType, formatUntilDate } from "../common";
 import { ExecuteOptionModal } from "../common/executeOptionModal";
+import { buildTokenUrl } from "../../common/DisplayAddress";
 
 import {
   Address0x,
@@ -73,14 +75,19 @@ export const FirstTable = () => {
                       className="bg-white dark:bg-gray-800 border-b border-dashed border-[rgba(145,158,171,0.2)]"
                     >
                       <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center">
-                        <ImageWrapper
-                          src={tokenInfo?.icon || ""}
-                          alt={tokenInfo?.name || "Unknown"}
-                          width="30"
-                          height="30"
-                          className="mr-2 rounded-full"
-                        />
-                        {tokenInfo?.name || "Unknown Token"}
+                        <Link
+                          href={buildTokenUrl(network, tokenInfo?.name) || "#"}
+                          target="_blank"
+                        >
+                          <ImageWrapper
+                            src={tokenInfo?.icon || ""}
+                            alt={tokenInfo?.name || "Unknown"}
+                            width="30"
+                            height="30"
+                            className="mr-2 rounded-full"
+                          />
+                          {tokenInfo?.name || "Unknown Token"}
+                        </Link>
                       </td>
                       <td className="px-6 py-4">
                         {displayTokens(userToken.balance, {

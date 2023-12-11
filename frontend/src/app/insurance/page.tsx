@@ -15,7 +15,7 @@ import {
   Typography,
 } from "../../lib";
 import { InputSliderFieldS } from "../../lib/components/form/input-stabilan/InputSliderField/InputSliderField";
-import { DisplayAddress } from "../common/DisplayAddress";
+import { DisplayAddress, buildTokenUrl } from "../common/DisplayAddress";
 import { TermsAndConditionCard } from "../common/TermsAndConditionCard";
 import TokenCard from "../common/TokenCard";
 
@@ -81,6 +81,21 @@ export default function Page() {
   const { formattedPrice: WETHFormattedPrice } = useGetPriceByAddress(
     contractAddressesByChain[network.modifiedName as AvailableChains]?.WETH
   );
+
+  const { data: currentEpoch } = useWingsContractRead({
+    contractName: "StabilanCore",
+    functionName: "currentEpoch",
+  });
+
+  const { data: strikePrice } = useWingsContractRead({
+    contractName: "StabilanCore",
+    functionName: "assetsData",
+    args: [
+      getAddressByTokenAndNetwork(selectedToken?.name, network.modifiedName),
+      currentEpoch,
+    ],
+  });
+  console.log({ strikePrice });
 
   const { data: assetsConfig } = useWingsContractRead({
     contractName: "StabilanCore",
@@ -308,12 +323,7 @@ export default function Page() {
                 </FlexRow>
 
                 <DisplayAddress
-                  address={`${
-                    network.blockExplorers?.default.url
-                  }/token/${getAddressByTokenAndNetwork(
-                    selectedToken?.name,
-                    network.modifiedName
-                  )}`}
+                  address={buildTokenUrl(network, selectedToken?.name)}
                 />
 
                 <Divider />
@@ -326,6 +336,7 @@ export default function Page() {
                     {selectedToken.name}
                   </Typography>
                 </FlexRow>
+
                 <FlexRow className="justify-between">
                   <FlexRow className="gap-2 items-center">
                     <Typography>Until</Typography>
@@ -337,6 +348,21 @@ export default function Page() {
                     }).toDateString()}
                   </Typography>
                 </FlexRow>
+
+                <FlexRow className="justify-between">
+                  <FlexRow className="gap-2 items-center">
+                    <Typography>Strike price</Typography>
+                    <Icon src={Icons.SolarInfoCircleBold} />
+                  </FlexRow>
+                  <Typography type="body-bold" className="text-info">
+                    {strikePrice
+                      ? displayTokens((strikePrice as any)[0], {
+                          tokenLabel: "$",
+                        })
+                      : "/"}
+                  </Typography>
+                </FlexRow>
+
                 <FlexRow className="justify-between">
                   <FlexRow className="gap-2 items-center">
                     <Typography>Cost</Typography>
