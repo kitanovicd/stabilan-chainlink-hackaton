@@ -30,6 +30,7 @@ contract Play is Script {
     MockChainlinkOracle wethPriceFeed = MockChainlinkOracle(0x045B0FF4F0E47288cc98D23301554793E273cCc8);
     TestpageHelper testpageHelper = TestpageHelper(0x58961cADDAc6c775916A5B6B54b51b4cDA2824e5);
     TokenFactory tokenFactory = TokenFactory(0xB622C438d523657670ADF27ed510CfCA5DDe8F04);
+    MockERC20 usdc = MockERC20(0xF0d710f11DD9cfc87e2D2d61697921C1D17EFF22);
 
     StabilanCore stabilanCore = StabilanCore(0xf1e1B0A00baFAe9340cd6707ab50A5B9722b659A);
 
@@ -43,7 +44,8 @@ contract Play is Script {
       address deployerAddress = vm.addr(deployerPrivateKey);
 
     // console.log(usdc.allowance(deployerAddress, address(st)));
-    console.log(weth.balanceOf(address(stabilanCore)));
+    // console.log(weth.balanceOf(address(stabilanCore)));
+    console.log(stabilanCore.assetsConfig(address(usdt)).strikePrice);
 
     vm.startBroadcast(deployerPrivateKey);
 
@@ -58,6 +60,11 @@ contract Play is Script {
     // st.executeOptions(IOptionToken(0xA2C7e6B5EC2d622846Df0F3733238c8EFb3A7233), 50 ether);
 
     // stabilanCore.claimBackingRewards(IBackingToken(0x3733033c14DdEdf2916972B07F49B32B649365Da));
+
+    // stabilanCore.setupAsset(address(usdt), 0.8 ether, 0.97 ether, 0.1031 ether, address(weth));
+            // stabilanCore.setupAsset(address(wbtc), 0.8 ether, 0.55 ether, 0.2471 ether, address(weth));
+
+          
 
     vm.stopBroadcast();
   }

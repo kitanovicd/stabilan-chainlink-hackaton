@@ -32,7 +32,7 @@ contract Deploy is Script {
 //   Assets setuped
 //   {
 //   PriceFeedAggregator: "0xb93A89dD8d21E3483F9a2fEAe34D34B7a19e38Ff",
-//   StabilanCore: "0xF3bB2741249Dd0FC6Fc1945471da5Df56ad69d81",
+//   StabilanCore: "0xf1e1B0A00baFAe9340cd6707ab50A5B9722b659A",
 //   DataProvider: "0xa21d182889e0BdF0357A5956FEfD9B8F537b6dF5",
 //   USDC: "0xF0d710f11DD9cfc87e2D2d61697921C1D17EFF22",
 //   USDCPriceFeed: "0xfE9D930f1d5b187Ed8175D48B38FCE705683b2De",
@@ -50,7 +50,7 @@ contract Deploy is Script {
     TestpageHelper testpageHelper = TestpageHelper(0x58961cADDAc6c775916A5B6B54b51b4cDA2824e5);
     TokenFactory tokenFactory = TokenFactory(0xB622C438d523657670ADF27ed510CfCA5DDe8F04);
 
-    StabilanCore stabilanCore = StabilanCore(0xF3bB2741249Dd0FC6Fc1945471da5Df56ad69d81);
+    StabilanCore stabilanCore = StabilanCore(0xf1e1B0A00baFAe9340cd6707ab50A5B9722b659A);
 
     function run() public {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
