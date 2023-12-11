@@ -106,7 +106,9 @@ export const FirstTable = () => {
                       </td>
                       <td className="px-6 py-4">{date}</td>
                       <td className="px-6 py-4">
-                        {currentTime == null || new Date(date) < currentTime ? (
+                        {currentTime == null ||
+                        date == null ||
+                        new Date(date) < currentTime ? (
                           <span>{currentTime ? "Expired" : "Loading.."}</span>
                         ) : (
                           <ExecuteOptionModal
