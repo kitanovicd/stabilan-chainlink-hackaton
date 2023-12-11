@@ -31,7 +31,7 @@ contract Play is Script {
     TestpageHelper testpageHelper = TestpageHelper(0x58961cADDAc6c775916A5B6B54b51b4cDA2824e5);
     TokenFactory tokenFactory = TokenFactory(0xB622C438d523657670ADF27ed510CfCA5DDe8F04);
 
-    StabilanCore stabilanCore = StabilanCore(0xF3bB2741249Dd0FC6Fc1945471da5Df56ad69d81);
+    StabilanCore stabilanCore = StabilanCore(0xf1e1B0A00baFAe9340cd6707ab50A5B9722b659A);
 
 
   function run() public {
