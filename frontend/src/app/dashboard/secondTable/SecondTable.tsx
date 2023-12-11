@@ -11,6 +11,7 @@ import { buildTokenUrl } from "../../common/DisplayAddress";
 import { RewardsAmount } from "./RewardsAmount";
 import { ClaimRewardsAmount } from "./ClaimRewardsAmount";
 import { ExecuteOptions } from "./ExecuteOptions";
+import { RewardsAmount2 } from "./RewardsAmount2";
 
 import {
   Address0x,
@@ -117,8 +118,13 @@ export const SecondTable = () => {
               <th scope="col" className="px-6 py-3">
                 Locked Until
               </th>
+              <th scope="col" className="px-6 py-3">
+                Rewards amount
+              </th>
               <th scope="col" className="px-6 py-3"></th>
-              <th scope="col" className="px-6 py-3"></th>
+              <th scope="col" className="px-6 py-3">
+                Assets amount
+              </th>
               <th scope="col" className="px-6 py-3"></th>
               <th scope="col" className="px-6 py-3"></th>
             </tr>
@@ -177,6 +183,14 @@ export const SecondTable = () => {
                           contractAddress={userToken.backedAsset}
                         />
                       </td>
+
+                      <td className="px-6 py-4">
+                        <RewardsAmount2
+                          contractAddress={userToken.backedAsset}
+                          userAddress={address as Address0x}
+                        />
+                      </td>
+
                       <td className="px-6 py-4">
                         <ExecuteOptions
                           contractAddress={userToken.backedAsset}
