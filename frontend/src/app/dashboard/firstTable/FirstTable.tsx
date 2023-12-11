@@ -76,8 +76,12 @@ export const FirstTable = () => {
                     >
                       <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center">
                         <Link
-                          href={buildTokenUrl(network, tokenInfo?.name) || "#"}
+                          href={
+                            `${network.blockExplorers?.default.url}/token/${userToken.stabilanTokenAddress}` ||
+                            "#"
+                          }
                           target="_blank"
+                          className="flex flex-row gap-2 items-center"
                         >
                           <ImageWrapper
                             src={tokenInfo?.icon || ""}
