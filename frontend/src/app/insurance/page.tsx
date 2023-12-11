@@ -87,6 +87,12 @@ export default function Page() {
     functionName: "currentEpoch",
   });
 
+  console.log({
+    address: getAddressByTokenAndNetwork(
+      selectedToken?.name,
+      network.modifiedName
+    ),
+  });
   const { data: strikePrice } = useWingsContractRead({
     contractName: "StabilanCore",
     functionName: "assetsData",

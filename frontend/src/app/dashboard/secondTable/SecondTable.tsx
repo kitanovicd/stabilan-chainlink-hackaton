@@ -140,7 +140,10 @@ export const SecondTable = () => {
                     >
                       <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center">
                         <Link
-                          href={buildTokenUrl(network, tokenInfo?.name) || "#"}
+                          href={
+                            `${network.blockExplorers?.default.url}/token/${userToken.stabilanTokenAddress}` ||
+                            "#"
+                          }
                           target="_blank"
                         >
                           <ImageWrapper
