@@ -4,9 +4,9 @@ import { useState } from "react";
 import { etherUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 
-import { Address0x } from "app/config/Contract-Addresses";
+import { Address0x, contractAddressesByChain } from "app/config/Contract-Addresses";
 import { getAddressByTokenAndNetwork, tokens } from "app/config/tokens";
-import { Button, Card, FlexCol, Icon, InputField, Typography } from "lib";
+import { Button, Card, FlexCol, Icon, Icons, InputField, Typography } from "lib";
 import { useWingsContractWrite } from "lib/client/hooks/useWingsContractWrite";
 import { useTargetNetwork } from "lib/client/hooks/useTargetNetwork";
 
@@ -25,8 +25,21 @@ export const Minterc20 = () => {
     undefined
   );
 
+  let allTokens = tokens;
+  allTokens.push(
+    {
+      name: "WETH",
+      icon: Icons.tokenWETH,
+      avalancheFuji: { address: contractAddressesByChain.avalancheFuji.WETH },
+      polygonZkevmTestnet: {
+        address: contractAddressesByChain.polygonZkevmTestnet.WETH,
+      },
+      baseGoerli: { address: contractAddressesByChain.baseGoerli.WETH },
+    }
+  )
+
   const selectToken = (tokenName: string) => {
-    const token = tokens.find((t) => t.name === tokenName);
+    const token = allTokens.find((t) => t.name === tokenName);
     setSelectedToken(token);
   };
 
@@ -53,7 +66,7 @@ export const Minterc20 = () => {
         <FlexCol className="gap-4 flex-wrap">
           <Typography type="h5">minterc20</Typography>
           <div className="flex gap-3">
-            {tokens.map((token, index) => (
+            {allTokens.map((token, index) => (
               <div
                 key={index}
                 className={`cursor-pointer flex flex-col items-center rounded-2xl p-4 border border-dashed border-[rgba(145,158,171,0.2)] relative ${

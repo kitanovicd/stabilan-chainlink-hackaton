@@ -50,4 +50,5 @@ export const Icons = {
   tokenDai: "/tokens/dai.png",
   tokenWBTC: "/tokens/wbtcicon.png",
   tokenINSRD: "/tokens/INSRD.png",
+  tokenWETH: "/tokens/weth.png",
 };
