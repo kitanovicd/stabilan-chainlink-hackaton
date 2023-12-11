@@ -13,7 +13,7 @@ export const Banner: React.FC<{
     <div
       id="marketing-banner"
       tabIndex={-1}
-      className={`fixed z-9999 flex flex-col md:flex-row justify-between 
+      className={`fixed z-50 flex flex-col md:flex-row justify-between 
         w-[calc(100%-2rem)] p-4 -translate-x-1/2 bg-white border 
         border-gray-100 rounded-lg shadow-sm lg:max-w-7xl left-1/2 top-20 
         dark:bg-gray-700 dark:border-gray-600 ${isHidden ? "hidden" : ""}`}
