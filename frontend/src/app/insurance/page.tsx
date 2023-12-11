@@ -18,6 +18,7 @@ import { InputSliderFieldS } from "../../lib/components/form/input-stabilan/Inpu
 import { DisplayAddress, buildTokenUrl } from "../common/DisplayAddress";
 import { TermsAndConditionCard } from "../common/TermsAndConditionCard";
 import TokenCard from "../common/TokenCard";
+import { useFetchBlockTime } from "../common/useFetchBlockTime";
 
 import {
   AvailableChains,
@@ -47,6 +48,8 @@ export default function Page() {
   const [selectedToken, setSelectedToken] = useState<IToken | undefined>(
     tokens[0]
   );
+
+  const { currentTime } = useFetchBlockTime();
 
   const selectToken = (token: IToken) => {
     setSelectedToken(token);
@@ -351,7 +354,8 @@ export default function Page() {
                   <Typography type="body-bold" className="text-info">
                     {getDateAsLastDayOfTheMonth({
                       numberOfMonths: months,
-                    }).toDateString()}
+                      dateFrom: currentTime,
+                    })?.toDateString()}
                   </Typography>
                 </FlexRow>
 

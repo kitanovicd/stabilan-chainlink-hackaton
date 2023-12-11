@@ -7,6 +7,7 @@ import Link from "next/link";
 
 import { TokenType, formatUntilDate } from "../common";
 import { buildTokenUrl } from "../../common/DisplayAddress";
+import { useFetchBlockTime } from "../../common/useFetchBlockTime";
 
 import { RewardsAmount } from "./RewardsAmount";
 import { ClaimRewardsAmount } from "./ClaimRewardsAmount";
@@ -68,6 +69,8 @@ export const SecondTable = () => {
   const onSubmitAsync = async () => {
     console.log("first");
   };
+
+  const { currentTime } = useFetchBlockTime();
 
   const modalContent = (
     <MyFormProvider methods={methods} onSubmit={handleSubmit(onSubmitAsync)}>
@@ -178,30 +181,26 @@ export const SecondTable = () => {
                           userAddress={address as Address0x}
                         />
                       </td>
+                      {/* todo  */}
                       <td className="px-6 py-4">
-                        <ClaimRewardsAmount
-                          contractAddress={userToken.backedAsset}
-                        />
+                        {currentTime == null || new Date(date) < currentTime ? (
+                          <span></span>
+                        ) : (
+                          <ClaimRewardsAmount
+                            contractAddress={userToken.backedAsset}
+                          />
+                        )}
                       </td>
-
                       <td className="px-6 py-4">
                         <RewardsAmount2
                           contractAddress={userToken.backedAsset}
                           userAddress={address as Address0x}
                         />
                       </td>
-
                       <td className="px-6 py-4">
                         <ExecuteOptions
                           contractAddress={userToken.backedAsset}
                         />
-                      </td>
-                      <td className="px-6 py-4">
-                        {new Date(date) > new Date() ? (
-                          <span></span>
-                        ) : (
-                          <Button color="primary">Claim</Button>
-                        )}
                       </td>
                     </tr>
                   );

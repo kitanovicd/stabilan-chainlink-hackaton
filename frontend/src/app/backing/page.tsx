@@ -1,5 +1,7 @@
 "use client";
 
+import { type } from "os";
+
 import { useState } from "react";
 import { etherUnits, formatUnits, parseUnits } from "viem";
 
@@ -18,6 +20,7 @@ import { InputSliderFieldS } from "../../lib/components/form/input-stabilan/Inpu
 import { DisplayAddress } from "../common/DisplayAddress";
 import { TermsAndConditionCard } from "../common/TermsAndConditionCard";
 import TokenCard from "../common/TokenCard";
+import { useFetchBlockTime } from "../common/useFetchBlockTime";
 
 import {
   AvailableChains,
@@ -137,6 +140,8 @@ export default function Page() {
       onSuccess: () => resetForm(),
     });
   };
+
+  const { currentTime } = useFetchBlockTime();
 
   const resetForm = () => {
     setAmount("");
@@ -274,7 +279,8 @@ export default function Page() {
                   <Typography type="body-bold" className="text-info">
                     {getDateAsLastDayOfTheMonth({
                       numberOfMonths: months,
-                    }).toDateString()}
+                      dateFrom: currentTime,
+                    })?.toDateString()}
                   </Typography>
                 </FlexRow>
                 <FlexRow className="justify-between">

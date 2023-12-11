@@ -6,6 +6,7 @@ import Link from "next/link";
 import { TokenType, formatUntilDate } from "../common";
 import { ExecuteOptionModal } from "../common/executeOptionModal";
 import { buildTokenUrl } from "../../common/DisplayAddress";
+import { useFetchBlockTime } from "../../common/useFetchBlockTime";
 
 import {
   Address0x,
@@ -36,6 +37,8 @@ export const FirstTable = () => {
       address as Address0x,
     ],
   });
+
+  const { currentTime } = useFetchBlockTime();
 
   return (
     <div className="relative overflow-x-auto">
@@ -103,8 +106,8 @@ export const FirstTable = () => {
                       </td>
                       <td className="px-6 py-4">{date}</td>
                       <td className="px-6 py-4">
-                        {new Date(date) < new Date() ? (
-                          <span>Expired</span>
+                        {currentTime == null || new Date(date) < currentTime ? (
+                          <span>{currentTime ? "Expired" : "Loading.."}</span>
                         ) : (
                           <ExecuteOptionModal
                             stabilanTokenAddress={

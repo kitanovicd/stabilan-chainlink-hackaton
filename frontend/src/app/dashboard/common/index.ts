@@ -1,3 +1,5 @@
+import { startdAPPDate } from "../../config/date";
+
 import { Address0x } from "app/config/Contract-Addresses";
 import { getDateAsLastDayOfTheMonth } from "lib/utils/date/find-last-day-of-the-month";
 
@@ -5,9 +7,9 @@ import { getDateAsLastDayOfTheMonth } from "lib/utils/date/find-last-day-of-the-
 export const formatUntilDate = (numberOfMonths: number) => {
   const lastDayOfMonth = getDateAsLastDayOfTheMonth({
     numberOfMonths,
-    dateFrom: new Date("2023-11-01"),
+    dateFrom: startdAPPDate,
   });
-  return lastDayOfMonth.toLocaleDateString();
+  return lastDayOfMonth?.toLocaleDateString();
 };
 
 export enum TokenType {

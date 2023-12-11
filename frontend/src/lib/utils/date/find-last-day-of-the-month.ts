@@ -23,8 +23,9 @@ export interface GetDateAsLastDayOfTheMonthOptions {
  */
 export const getDateAsLastDayOfTheMonth = ({
   numberOfMonths,
-  dateFrom = new Date(),
-}: GetDateAsLastDayOfTheMonthOptions): Date => {
+  dateFrom,
+}: GetDateAsLastDayOfTheMonthOptions): Date | undefined => {
+  if (!dateFrom) return undefined;
   const date = new Date(dateFrom);
   date.setMonth(date.getMonth() + numberOfMonths - 1); // Subtracting 1 to adjust to the same month
   date.setMonth(date.getMonth() + 1, 0); // Sets the date to the last day of the month
