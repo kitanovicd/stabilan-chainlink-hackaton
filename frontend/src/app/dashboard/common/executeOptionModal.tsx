@@ -120,7 +120,8 @@ export const ExecuteOptionModal: React.FC<{
     </MyFormProvider>
   );
 
-  if ((currentEpoch || 0) < (endEpoch || 0)) return <span>Expired</span>;
+  // Execute option
+  if ((currentEpoch || 0) >= (endEpoch || 0)) return <span>Expired</span>;
 
   return (
     <GenericModal

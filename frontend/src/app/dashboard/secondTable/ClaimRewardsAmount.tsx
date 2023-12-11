@@ -22,7 +22,8 @@ export const ClaimRewardsAmount: React.FC<{
     args: [undefined],
   });
 
-  if ((currentEpoch || 0) >= (endEpoch || 0)) return null;
+  // Claim Rewards Amount
+  if ((currentEpoch || 0) <= (endEpoch || 0)) return null;
 
   return (
     <Button
