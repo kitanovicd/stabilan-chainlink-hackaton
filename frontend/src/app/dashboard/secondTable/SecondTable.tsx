@@ -183,7 +183,9 @@ export const SecondTable = () => {
                       </td>
                       {/* todo  */}
                       <td className="px-6 py-4">
-                        {currentTime == null || new Date(date) < currentTime ? (
+                        {currentTime == null ||
+                        date == null ||
+                        new Date(date) < currentTime ? (
                           <span></span>
                         ) : (
                           <ClaimRewardsAmount

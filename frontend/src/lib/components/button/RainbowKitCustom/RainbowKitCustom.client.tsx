@@ -18,7 +18,6 @@ export const RainbowKitCustom = () => {
     contractName: "StabilanCore",
     functionName: "daoToken",
   });
-  console.log({ daoToken });
 
   const { data: daoTokenBalance } = useWingsContractRead({
     contractName: "MockERC20",
@@ -29,8 +28,6 @@ export const RainbowKitCustom = () => {
     },
     args: [address as Address0x],
   });
-
-  console.log({ daoTokenBalance });
 
   return (
     <ConnectButton.Custom>
