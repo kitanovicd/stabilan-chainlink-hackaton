@@ -1,6 +1,6 @@
 "use client";
 
-import { useAccount } from "wagmi";
+import { useAccount, useQueryClient } from "wagmi";
 
 import { MockPriceFeedAggregatorComponent } from "./MockPriceFeedAggregator/MockPriceFeedAggregatorComponent";
 import { Minterc20 } from "./minterc20/minterc20";
@@ -10,6 +10,7 @@ import { useWingsContractWrite } from "lib/client/hooks/useWingsContractWrite";
 import { useTargetNetwork } from "lib/client/hooks/useTargetNetwork";
 
 export default function Page() {
+  const queryClient = useQueryClient();
   const { targetNetwork: network } = useTargetNetwork();
   const { address } = useAccount();
 
@@ -31,8 +32,12 @@ export default function Page() {
         className="w-48"
         color="error"
         loading={isEpoching}
-        onClick={() => {
-          updateEpochAsync();
+        onClick={async () => {
+          await updateEpochAsync({
+            onSuccess: () => {
+              queryClient.invalidateQueries();
+            },
+          });
         }}
       >
         Update epoch
