@@ -57,7 +57,7 @@ export const contractAddressesByChain: ContractAddressesByChain = {
   },
   polygonZkevmTestnet: {
     PriceFeedAggregator: "0xb93A89dD8d21E3483F9a2fEAe34D34B7a19e38Ff",
-    StabilanCore: "0x485a26228a162054a35c6418A32Ec4364Ce20Bdd",
+    StabilanCore: "0xC89d4eaCb839f8C731C84d1f765523D08CD0d02e",
     DataProvider: "0xa21d182889e0BdF0357A5956FEfD9B8F537b6dF5",
     USDC: "0xC3e74826B4eBC21e0327e1D3b32b2851bcc33c76",
     USDCPriceFeed: "0x1E889CdC8faB43f4e5352761335B9Bf7a452e1BF",
