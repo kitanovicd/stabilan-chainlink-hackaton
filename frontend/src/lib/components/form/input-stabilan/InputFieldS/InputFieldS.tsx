@@ -5,6 +5,8 @@ import React, {
   ReactNode,
 } from "react";
 
+import { Typography } from "../../../text/Typography/Typography";
+
 import styles from "./InputField.module.css";
 
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -16,6 +18,7 @@ interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: ReactNode;
   placeholder?: string;
   fullWidth?: boolean;
+  errorMessage?: string;
 }
 
 export const InputFieldS = React.forwardRef<HTMLInputElement, InputFieldProps>(
@@ -30,6 +33,7 @@ export const InputFieldS = React.forwardRef<HTMLInputElement, InputFieldProps>(
       placeholder,
       fullWidth,
       className,
+      errorMessage,
       ...rest
     },
     ref
@@ -37,26 +41,31 @@ export const InputFieldS = React.forwardRef<HTMLInputElement, InputFieldProps>(
     const classes = cn(styles.container, { ["w-full"]: fullWidth }, className);
 
     return (
-      <div className={`${classes} border focus-within:border-success`}>
-        {label && <div className="flex mb-4">{label}</div>}
-        <div
-          className={`flex flex-row items-center flex-wrap ${
-            downLabel ? "" : "mb-[30px]"
-          }`}
-        >
-          <input
-            ref={ref}
-            className="text-2xl flex-1 outline-none bg-transparent not-italic"
-            autoComplete="off"
-            value={value}
-            name={name}
-            onChange={onChange}
-            placeholder={placeholder}
-            {...rest}
-          />
-          {rightLabel && <div className="flex-shrink-0">{rightLabel}</div>}
+      <div>
+        <div className={`${classes} border focus-within:border-success`}>
+          {label && <div className="flex mb-4">{label}</div>}
+          <div
+            className={`flex flex-row items-center flex-wrap ${
+              downLabel ? "" : "mb-[30px]"
+            }`}
+          >
+            <input
+              ref={ref}
+              className="text-2xl flex-1 outline-none bg-transparent not-italic min-w-0"
+              autoComplete="off"
+              value={value}
+              name={name}
+              onChange={onChange}
+              placeholder={placeholder}
+              {...rest}
+            />
+            {rightLabel && <div className="flex-shrink-0">{rightLabel}</div>}
+          </div>
+          {downLabel && <div className="mt-3">{downLabel}</div>}
         </div>
-        {downLabel && <div className="mt-3">{downLabel}</div>}
+        {errorMessage && (
+          <Typography className="text-error">{errorMessage}</Typography>
+        )}
       </div>
     );
   }

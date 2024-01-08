@@ -1,9 +1,9 @@
 import cn from "classnames";
 import React, { ChangeEventHandler, InputHTMLAttributes } from "react";
 
-import { Icons } from "../../../../meta/icons";
 import { Icon } from "../../../icon/Icon/Icon";
 import { Typography } from "../../../text/Typography/Typography";
+import { Icons } from "../../../../meta";
 
 import styles from "./InputSliderField.module.css";
 

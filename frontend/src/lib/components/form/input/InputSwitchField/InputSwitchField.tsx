@@ -12,7 +12,7 @@ interface InputSwitchFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   value?: string | number | readonly string[] | undefined;
   leftLabel?: string;
   rightLabel?: string;
-  valueLabel?: string; // NOTE: You didn't use this prop in the given component. Consider removing it if unnecessary.
+  valueLabel?: string;
 }
 
 export const InputSwitchField = React.forwardRef<

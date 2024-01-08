@@ -7,7 +7,7 @@ import { useAccount } from "wagmi";
 import { Button } from "../..";
 import { useAutoConnect } from "../../../client/hooks/useAutoConnect";
 import { useWingsContractRead } from "../../../client/hooks/useWingsContractRead";
-import { Address0x } from "../../../../app/config/Contract-Addresses";
+import { Address0x } from "../../../../app/common/config/Contract-Addresses";
 import { displayTokens } from "../../../utils/tokens/display-tokens";
 
 export const RainbowKitCustom = () => {

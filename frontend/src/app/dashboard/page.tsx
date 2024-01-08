@@ -1,7 +1,5 @@
-"use client";
-
-import { FirstTable } from "./firstTable/FirstTable";
-import { SecondTable } from "./secondTable/SecondTable";
+import { OptionsTable } from "./components/OptionsTable/OptionsTable";
+import { BackingTable } from "./components/BackingTable/BackingTable";
 
 import { Card, FlexCol, Typography } from "lib";
 
@@ -15,10 +13,10 @@ export default function Page() {
 
       <FlexCol className="gap-8 mb-4">
         <Card size="big">
-          <FirstTable />
+          <OptionsTable />
         </Card>
         <Card size="big">
-          <SecondTable />
+          <BackingTable />
         </Card>
       </FlexCol>
     </div>

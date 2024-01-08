@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useIsMounted } from "usehooks-ts";
 import { Address, usePublicClient } from "wagmi";
 
-import { Address0x } from "../../../app/config/Contract-Addresses";
+import { Address0x } from "../../../app/common/config/Contract-Addresses";
 
 import { useTargetNetwork } from "./useTargetNetwork";
 

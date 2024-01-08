@@ -7,9 +7,9 @@ import React, {
   useState,
 } from "react";
 
-import { Icons } from "../../../meta";
 import { Button, ButtonProps } from "../../button/Button/Button";
 import { Icon } from "../../icon/Icon/Icon";
+import { Icons } from "../../../meta";
 
 import style from "./GenericModal.module.css";
 

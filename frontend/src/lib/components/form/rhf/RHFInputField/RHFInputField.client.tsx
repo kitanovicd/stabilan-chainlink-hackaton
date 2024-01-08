@@ -37,6 +37,7 @@ export function RHFInputField<T>({
           rightLabel={rightLabel}
           leftLabel={leftLabel}
           value={field.value || ""}
+          errorMessage={error?.message}
           {...other}
         />
       )}

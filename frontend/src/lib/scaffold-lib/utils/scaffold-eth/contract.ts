@@ -22,7 +22,7 @@ import {
 } from "wagmi";
 
 import scaffoldConfig from "../../../../../scaffold.config";
-import { Address0x } from "../../../../app/config/Contract-Addresses";
+import { Address0x } from "../../../../app/common/config/Contract-Addresses";
 import contractsData from "../../contracts/externalContracts";
 
 import { GenericContractsDeclaration } from "./contract-types";

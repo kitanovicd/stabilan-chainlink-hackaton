@@ -1,6 +1,6 @@
 import { Abi } from "viem";
 
-import { Address0x } from "app/config/Contract-Addresses";
+import { Address0x } from "app/common/config/Contract-Addresses";
 
 export type InheritedFunctions = { readonly [key: string]: string };
 

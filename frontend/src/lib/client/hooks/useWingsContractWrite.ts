@@ -1,3 +1,5 @@
+"use client";
+
 import { ExtractAbiFunctionNames } from "abitype";
 import { useState } from "react";
 import { Abi, Address } from "viem";

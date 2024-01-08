@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 import { colors } from "./tailwind-config/colors";
-import { fontSize, fontWeight, lineHeight } from "./tailwind-config/front";
+import { fontSize, fontWeight, lineHeight } from "./tailwind-config/fonts";
 
 const config: Config = {
   darkMode: "class",

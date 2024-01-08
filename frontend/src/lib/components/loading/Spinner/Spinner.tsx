@@ -1,6 +1,6 @@
-import { WithClassName } from "../../../types";
-
-export const Spinner: React.FC<WithClassName> = ({ className = "" }) => {
+export const Spinner: React.FC<{
+  className?: string;
+}> = ({ className = "" }) => {
   return (
     <svg
       aria-hidden="true"

@@ -33,6 +33,3 @@ export const getDateAsLastDayOfTheMonth = ({
 
   return lastDayOfMonth(addedMonths);
 };
-
-// date.setMonth(date.getMonth() + numberOfMonths - 1); // Subtracting 1 to adjust to the same month
-// date.setMonth(date.getMonth() + 1, 0); // Sets the date to the last day of the month

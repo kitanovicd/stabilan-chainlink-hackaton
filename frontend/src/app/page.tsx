@@ -1,4 +1,4 @@
-import { MainContent } from "./home/MainContent";
+import { MainContent } from "./home/components/MainContent/MainContent";
 
 import { Icons, ImageWrapper, Typography } from "lib";
 

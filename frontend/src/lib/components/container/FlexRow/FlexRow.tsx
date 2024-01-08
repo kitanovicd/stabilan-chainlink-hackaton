@@ -9,12 +9,11 @@ interface Props extends HTMLAttributes<HTMLDivElement> {}
  * The `FlexRow` component provides a convenient way to create a flexbox container with a row direction.
  *
  * ## Default Styles
- * Tailwind code: `flex flex-row gap-3`
+ * Tailwind code: `flex flex-row`
  *
  * By default, the component has the following styles:
  * - Display set to `flex` (making it a flexbox container).
  * - Flex direction set to `row`.
- * - A gap of `3` units between child items.
  *
  * ## Overriding Default Styles
  * Any props passed to the component (including `className`) will override the default styles.

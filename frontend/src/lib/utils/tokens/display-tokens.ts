@@ -1,6 +1,6 @@
 import { formatUnits } from "viem";
 
-import { formatWithDynamicPrecision } from "../format/format-with-dynamic-precision";
+import { formatMoney } from "../money/format-money";
 
 export interface DisplayTokensOptions {
   formattedPrice?: number; // The price used to calculate the equivalent dollar value.
@@ -10,6 +10,7 @@ export interface DisplayTokensOptions {
   maxDecimals?: number; // The number of max decimal places for the token amount.
   tokenDecimals?: number; // The number of decimal places to format units.
   tokenLabel?: string; // The label to be added after the token amount.
+  currencyPosition?: "before" | "after"; // Position of the currency symbol.
 }
 
 /**
@@ -44,40 +45,43 @@ export function displayTokens(
     numberOfDecimals = 2,
     maxDecimals,
     tokenDecimals = 18,
+    currencyPosition = "after", // Default to 'after'
     tokenLabel,
   }: DisplayTokensOptions
 ): string {
-  // if (!tokens) {
-  //   return `0${".".padEnd(numberOfDecimals + 1, "0")}${
-  //     tokenLabel ? ` ${tokenLabel}` : ""
-  //   }`;
-  // }
+  let tokenAmount = parseFloat(formatUnits(tokens || BigInt(0), tokenDecimals));
 
   let formattedTokens = "";
-
-  const tokenAmount = parseFloat(
-    formatUnits(tokens || BigInt(0), tokenDecimals)
-  );
   if (!hideTokenAmount) {
-    // Format the token amount using the utility function
-    formattedTokens = formatWithDynamicPrecision(tokenAmount, {
+    formattedTokens = formatMoney(tokenAmount, {
+      currency: tokenLabel || "",
+      numberOfDecimals,
+      maxDecimals,
+      currencyPosition,
+    });
+  }
+
+  let formattedDollars = "";
+  if (formattedPrice && displayInDollars) {
+    const dollarAmount = tokenAmount * formattedPrice;
+    formattedDollars = formatMoney(dollarAmount, {
+      currency: "$",
       numberOfDecimals,
       maxDecimals,
     });
   }
 
-  let dollarAmountString = "";
-  if (formattedPrice && displayInDollars) {
-    const dollarAmount = tokenAmount * formattedPrice;
-    dollarAmountString = `$${formatWithDynamicPrecision(dollarAmount, {
-      numberOfDecimals,
-      maxDecimals,
-    })}`;
-
-    if (!hideTokenAmount) dollarAmountString = ` (${dollarAmountString})`;
+  // Choose what to return based on the flags
+  if (!hideTokenAmount && displayInDollars) {
+    if (formattedDollars) {
+      return `${formattedTokens} (${formattedDollars})`;
+    }
+    return `${formattedTokens}`;
+  } else if (!hideTokenAmount) {
+    return formattedTokens;
+  } else if (displayInDollars) {
+    return formattedDollars;
+  } else {
+    return "";
   }
-
-  return `${formattedTokens}${
-    tokenLabel ? ` ${tokenLabel}` : ""
-  }${dollarAmountString}`;
 }

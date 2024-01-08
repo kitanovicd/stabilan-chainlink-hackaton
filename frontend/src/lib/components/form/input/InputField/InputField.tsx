@@ -5,6 +5,8 @@ import React, {
   ReactNode,
 } from "react";
 
+import { Typography } from "../../../text/Typography/Typography";
+
 import styles from "./InputField.module.css";
 
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -15,6 +17,7 @@ interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   leftLabel?: ReactNode;
   placeholder?: string;
   fullWidth?: boolean;
+  errorMessage?: string | undefined;
 }
 
 export const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
@@ -28,6 +31,7 @@ export const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
       placeholder,
       fullWidth,
       className,
+      errorMessage,
       ...rest
     },
     ref
@@ -36,21 +40,26 @@ export const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
     const inputClasses = cn(styles.inputFont, styles.inputRoot);
 
     return (
-      <div className={classes}>
-        {leftLabel && <span className="inline-block w-32">{leftLabel}</span>}
-        <input
-          ref={ref}
-          className={inputClasses}
-          autoComplete="off"
-          value={value}
-          name={name}
-          onChange={onChange}
-          placeholder={placeholder}
-          // todo: review this
-          min={0}
-          {...rest}
-        />
-        {rightLabel && <span>{rightLabel}</span>}
+      <div>
+        <div className={classes}>
+          {leftLabel && <span className="inline-block w-32">{leftLabel}</span>}
+          <input
+            ref={ref}
+            className={inputClasses}
+            autoComplete="off"
+            value={value}
+            name={name}
+            onChange={onChange}
+            placeholder={placeholder}
+            // todo: review this
+            min={0}
+            {...rest}
+          />
+          {rightLabel && <span>{rightLabel}</span>}
+        </div>
+        {errorMessage && (
+          <Typography className="text-error">{errorMessage}</Typography>
+        )}
       </div>
     );
   }

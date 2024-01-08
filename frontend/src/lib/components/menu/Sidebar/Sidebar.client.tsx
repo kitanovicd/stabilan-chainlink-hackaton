@@ -2,12 +2,12 @@
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
-import { Icons } from "../../../meta";
 import { SidebarSection } from "../../../types";
 import { FlexCol } from "../../container/FlexCol/FlexCol";
 import { Icon } from "../../icon/Icon/Icon";
 import { Typography } from "../../text/Typography/Typography";
 import { MenuItem } from "../MenuItem/MenuItem";
+import { Icons } from "../../../meta";
 
 interface SidebarProps {
   sections: SidebarSection[];

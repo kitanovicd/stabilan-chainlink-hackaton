@@ -25,13 +25,12 @@ export const InputSliderFieldS = React.forwardRef<
       <div className="flex flex-row items-center flex-wrap">
         <input
           ref={ref}
-          className="text-2xl flex-1 outline-none bg-transparent not-italic"
+          className="text-2xl flex-1 outline-none bg-transparent not-italic min-w-0"
           autoComplete="off"
           value={value}
           name={rest.name}
           onChange={onChange}
           placeholder={rest.placeholder}
-          // todo: review this
           min={min}
           max={max}
           {...rest}

@@ -92,16 +92,3 @@ export const formatMoney = (
         decimalPart ? decimalSeparator + decimalPart : ""
       }${currency}`;
 };
-
-export const formatETHMoney = (
-  amount?: number | null,
-  options?: FormatMoneyOptions
-) => {
-  if (amount == null) return undefined;
-  // Ensure we pass the new options for formatting ETH money
-  return formatMoney(amount, {
-    currency: " ETH",
-    currencyPosition: "after",
-    ...options,
-  });
-};

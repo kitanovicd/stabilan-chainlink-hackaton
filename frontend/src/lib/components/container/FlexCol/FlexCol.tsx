@@ -9,12 +9,11 @@ interface Props extends HTMLAttributes<HTMLDivElement> {}
  * The `FlexCol` component provides a convenient way to create a flexbox container with a column direction.
  *
  * ## Default Styles
- * Tailwind code: `flex flex-col gap-5`
+ * Tailwind code: `flex flex-col`
  *
  * By default, the component has the following styles:
  * - Display set to `flex` (making it a flexbox container).
  * - Flex direction set to `col`.
- * - A gap of `5` units between child items.
  *
  * ## Overriding Default Styles
  * Any props passed to the component (including `className`) will override the default styles.

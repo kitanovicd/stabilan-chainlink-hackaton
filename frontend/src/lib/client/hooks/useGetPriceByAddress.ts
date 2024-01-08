@@ -1,9 +1,9 @@
 "use client";
 
-import { Address, formatUnits } from "viem";
+import { Address, etherUnits, formatUnits, parseUnits } from "viem";
 
-import { Address0x } from "../../../app/config/Contract-Addresses";
-import { formatUnitsToMoney } from "../../utils/money/format-units-to-money";
+import { Address0x } from "../../../app/common/config/Contract-Addresses";
+import { formatMoney } from "../../utils";
 
 import { useWingsContractRead } from "./useWingsContractRead";
 
@@ -38,7 +38,10 @@ export const useGetPriceByAddress = (address: Address) => {
   const decimals = 8;
 
   // Calculate price in dollars
-  const priceInDollars = formatUnitsToMoney(originalPrice, { decimals });
+  const priceInDollars = formatMoney(
+    Number(formatUnits(originalPrice || 0n, decimals)),
+    {}
+  );
 
   // Format original price
   const formattedPrice = parseFloat(formatUnits(originalPrice, decimals));

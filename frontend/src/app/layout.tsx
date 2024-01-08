@@ -8,11 +8,9 @@ import { RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
 import { Toaster } from "react-hot-toast";
 import { WagmiConfig } from "wagmi";
 
-import { navigationBarConfig } from "../lib";
-import { Banner } from "../lib/components/banner/Banner";
-
-import NavBar from "./nav-bar/NavBar";
-import { BannerWrapper } from "./banner/BannerWrapper";
+import NavBar from "./home/components/NavBar.client";
+import { BannerWrapper } from "./common/components/BannerWrapper";
+import { navigationBarConfig } from "./router";
 
 import { wagmiConfig } from "lib/scaffold-lib/services/web3/wagmiConfig";
 import { appChains } from "lib/scaffold-lib/services/web3/wagmiConnectors";

@@ -1,6 +1,6 @@
 import { GenericContractsDeclaration } from "../utils/scaffold-eth/contract-types";
 
-import { contractAddressesByChain } from "app/config/Contract-Addresses";
+import { contractAddressesByChain } from "app/common/config/Contract-Addresses";
 
 /**
  * @example

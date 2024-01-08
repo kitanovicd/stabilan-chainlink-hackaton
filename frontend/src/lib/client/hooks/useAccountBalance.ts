@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Address, useBalance } from "wagmi";
 
 import { useGlobalState } from "../../scaffold-lib/services/store/store";
+
 import { useTargetNetwork } from "./useTargetNetwork";
 
 export function useAccountBalance(address?: string) {
